@@ -104,7 +104,7 @@ export function InventoryItemFormModal({ item, isOpen, onClose, onSave }: Invent
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] card-sg">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>{item ? "Editar Repuesto" : "Crear Nuevo Repuesto"}</DialogTitle>
           <DialogDescription>

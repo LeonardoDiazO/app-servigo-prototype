@@ -23,7 +23,7 @@ import { clients, equipment, technicians } from "@/lib/data"
 import { ServiceClosureModal } from "./service-closure-modal"
 import { Wrench } from "lucide-react"
 
-export function OrderServiceForm() {
+export function OrderServiceForm({ onClose }: { onClose?: () => void }) {
   const [selectedClient, setSelectedClient] = React.useState<string | null>(null)
   const [selectedEquipment, setSelectedEquipment] = React.useState<string[]>([])
   const [isModalOpen, setIsModalOpen] = React.useState(false)
@@ -120,10 +120,10 @@ export function OrderServiceForm() {
           </form>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button variant="outline" onClick={() => setIsModalOpen(true)}>
-            Cierre de Servicio
+          <Button variant="outline" onClick={onClose || (() => setIsModalOpen(true))}>
+            {onClose ? "Cancelar" : "Cierre de Servicio"}
           </Button>
-          <Button>Crear Orden de Servicio</Button>
+          <Button onClick={onClose}>Crear Orden de Servicio</Button>
         </CardFooter>
       </Card>
       <ServiceClosureModal

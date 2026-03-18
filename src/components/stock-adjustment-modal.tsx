@@ -105,7 +105,7 @@ export function StockAdjustmentModal({ item, mode, isOpen, onClose, onSave }: St
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md card-sg">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

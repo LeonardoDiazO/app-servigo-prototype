@@ -156,7 +156,7 @@ export function ServiceOrderComponent() {
             <div className="relative w-full h-48 rounded-md border bg-background">
               <canvas
                 ref={canvasRef}
-                className="absolute top-0 left-0 w-full h-full"
+                className="absolute top-0 left-0 w-full h-full touch-none"
               />
             </div>
           </div>
@@ -177,7 +177,7 @@ export function ServiceOrderComponent() {
       </Card>
       
       <Dialog open={isSuccess} onOpenChange={setIsSuccess}>
-        <DialogContent className="sm:max-w-md card-sg">
+        <DialogContent className="sm:max-w-md">
             <DialogHeader className="items-center text-center pt-6">
                 <div className="mb-4">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className="h-20 w-20">

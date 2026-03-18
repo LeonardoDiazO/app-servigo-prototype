@@ -3,7 +3,7 @@
 import { useRef, useEffect, useCallback, RefObject } from "react"
 
 export function useSignatureCanvas(
-  canvasRef: RefObject<HTMLCanvasElement>,
+  canvasRef: RefObject<HTMLCanvasElement | null>,
   options?: { color?: string }
 ) {
   const isDrawingRef = useRef(false)

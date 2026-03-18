@@ -8,6 +8,7 @@ import {
   Boxes,
   Settings,
   LogOut,
+  Map as MapIcon,
 } from "lucide-react"
 
 import type { Module } from "@/app/dashboard/page"
@@ -36,6 +37,7 @@ export function SidebarNav({
     { name: "Clientes", icon: <Users />, tooltip: "Gestión de Clientes", roles: ['ADMIN'] },
     { name: "Equipos", icon: <Wrench />, tooltip: "Gestión de Equipos", roles: ['ADMIN', 'TECH'] },
     { name: "Ordenes", icon: <ClipboardList />, tooltip: "Órdenes de Servicio", roles: ['ADMIN', 'TECH'] },
+    { name: "Mapa", icon: <MapIcon />, tooltip: "Geo-Mapa de Operaciones", roles: ['ADMIN'] },
   ]
 
   const allLogisticsItems: { name: Module; icon: React.ReactNode; tooltip: string; roles: ('ADMIN' | 'TECH')[] }[] = [

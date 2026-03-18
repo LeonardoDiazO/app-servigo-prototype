@@ -85,7 +85,7 @@ export function ClientFormModal({ client, isOpen, onClose, onSave }: ClientFormM
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] card-sg">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>{client ? "Editar Cliente" : "Crear Nuevo Cliente"}</DialogTitle>
           <DialogDescription>

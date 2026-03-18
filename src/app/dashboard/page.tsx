@@ -14,11 +14,12 @@ import { SidebarNav } from "@/components/sidebar-nav"
 import { Header } from "@/components/header"
 import { kpiData, equipment, serviceOrders, technicians } from "@/lib/data"
 import { KpiCard } from "@/components/kpi-card"
-import { OrderServiceForm } from "@/components/order-service-form"
+import { OrderList } from "@/components/order-list"
 import { EquipmentListComponent } from "@/components/equipment-list"
 import { ClientListComponent } from "@/components/client-list"
 import { InventoryListComponent } from "@/components/inventory-list"
 import { RecentSales } from "@/components/recent-sales"
+import { EquipmentMap } from "@/components/equipment-map"
 
 export type Module =
   | "Dashboard"
@@ -26,6 +27,7 @@ export type Module =
   | "Equipos"
   | "Ordenes"
   | "Inventario"
+  | "Mapa"
 
 // ── Badge de estado ────────────────────────────────────────────────────────
 const statusConfig: Record<string, { label: string; bg: string; text: string; dot: string }> = {
@@ -223,8 +225,9 @@ export default function DashboardPage() {
             {currentModule === "Dashboard" && <DashboardContent />}
             {currentModule === "Clientes" && <ClientListComponent />}
             {currentModule === "Equipos" && <EquipmentListComponent />}
-            {currentModule === "Ordenes" && <OrderServiceForm />}
+            {currentModule === "Ordenes" && <OrderList />}
             {currentModule === "Inventario" && <InventoryListComponent />}
+            {currentModule === "Mapa" && <EquipmentMap />}
           </main>
         </div>
       </SidebarInset>

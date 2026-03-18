@@ -80,7 +80,7 @@ export function EquipmentFormModal({ equipment, isOpen, onClose, onSave, clients
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] card-sg">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>{equipment ? "Editar Equipo" : "Registrar Nuevo Equipo"}</DialogTitle>
           <DialogDescription>
