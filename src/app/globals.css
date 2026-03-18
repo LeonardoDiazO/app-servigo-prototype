@@ -12,6 +12,7 @@
     --popover-foreground: 222 47% 11%;
     --primary: 224 82% 57%; /* #2563EB */
     --primary-foreground: 0 0% 98%;
+    --primary-dark: 225 73% 39%; /* #1E3A8A */
     --secondary: 210 17% 98%; /* #F8F9FA */
     --secondary-foreground: 222 47% 11%;
     --muted: 220 13% 85%;
@@ -57,6 +58,7 @@
     --popover-foreground: 210 40% 98%;
     --primary: 224 82% 70%;
     --primary-foreground: 224 82% 10%;
+    --primary-dark: 225 73% 59%;
     --secondary: 210 10% 22%;
     --secondary-foreground: 210 15% 96%;
     --muted: 210 10% 22%;
@@ -135,5 +137,12 @@
   .filter-tag-text {
     font-size: 11px;
     font-weight: 700;
+  }
+  .btn-gradient {
+    background-image: linear-gradient(to right, hsl(var(--primary)), hsl(var(--primary-dark)));
+    transition: opacity 0.3s ease;
+  }
+  .btn-gradient:hover {
+    opacity: 0.9;
   }
 }
