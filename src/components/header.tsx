@@ -1,8 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
-import { Building, ChevronDown } from "lucide-react"
+import { Building, ChevronDown, User } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -14,13 +13,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { SidebarTrigger } from "./ui/sidebar"
-import { PlaceHolderImages } from "@/lib/placeholder-images"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { clients } from "@/lib/data"
 
 export function Header() {
-  const userAvatar = PlaceHolderImages.find((img) => img.id === "user-avatar")
-
   return (
     <header className="flex h-[70px] items-center gap-4 border-b bg-card px-4 lg:px-6">
       <div className="flex items-center gap-4">
@@ -78,16 +74,11 @@ export function Header() {
                 variant="ghost"
                 className="relative h-9 w-9 rounded-full"
               >
-                {userAvatar && (
-                  <Avatar className="h-9 w-9">
-                    <AvatarImage
-                      src={userAvatar.imageUrl}
-                      alt={userAvatar.description}
-                      data-ai-hint={userAvatar.imageHint}
-                    />
-                    <AvatarFallback>U</AvatarFallback>
-                  </Avatar>
-                )}
+                <Avatar className="h-9 w-9">
+                  <AvatarFallback>
+                    <User className="h-5 w-5" />
+                  </AvatarFallback>
+                </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
