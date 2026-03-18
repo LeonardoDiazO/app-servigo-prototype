@@ -13,8 +13,14 @@ import { KpiCard } from "@/components/kpi-card"
 import { Card, CardContent } from "@/components/ui/card"
 import { ServiceOrderComponent } from "@/components/service-order-component"
 import { EquipmentListComponent } from "@/components/equipment-list"
+import { ClientListComponent } from "@/components/client-list"
 
-export type Module = 'Dashboard' | 'Clientes' | 'Equipos' | 'Ordenes' | 'Inventario';
+export type Module =
+  | "Dashboard"
+  | "Clientes"
+  | "Equipos"
+  | "Ordenes"
+  | "Inventario"
 
 const DashboardContent = () => {
   return (
@@ -53,9 +59,7 @@ export default function Home() {
           <Header />
           <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
             {currentModule === "Dashboard" && <DashboardContent />}
-            {currentModule === "Clientes" && (
-              <PlaceholderContent module="Clientes" />
-            )}
+            {currentModule === "Clientes" && <ClientListComponent />}
             {currentModule === "Equipos" && <EquipmentListComponent />}
             {currentModule === "Ordenes" && <ServiceOrderComponent />}
             {currentModule === "Inventario" && (

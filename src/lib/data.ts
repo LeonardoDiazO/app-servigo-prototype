@@ -1,7 +1,53 @@
-export const clients = [
-    { id: "cliente-1", name: "Grand Hotel Plaza" },
-    { id: "cliente-2", name: "Torres Corporativas Capital" },
-    { id: "cliente-3", name: "Centro Comercial Oasis" },
+export interface IClient {
+    id: string;
+    name: string;
+    nit: string;
+    phone: string;
+    email: string;
+    address: string;
+    city: string;
+    sites: { id: string; name: string; address: string }[];
+}
+
+export const clients: IClient[] = [
+    { 
+        id: "cliente-1", 
+        name: "Grand Hotel Plaza", 
+        nit: "900.123.456-7",
+        phone: "3001234567",
+        email: "contacto@grandhotelplaza.com",
+        address: "Av. Siempre Viva 123",
+        city: "Bogotá",
+        sites: [
+            { id: "sede-1-1", name: "Sede Principal", address: "Av. Siempre Viva 123" },
+            { id: "sede-1-2", name: "Centro de Convenciones", address: "Calle Falsa 456" },
+        ]
+    },
+    { 
+        id: "cliente-2", 
+        name: "Torres Corporativas Capital",
+        nit: "800.987.654-3",
+        phone: "3109876543",
+        email: "admin@torrescapital.co",
+        address: "Cra 7 # 71-21",
+        city: "Bogotá",
+        sites: [
+            { id: "sede-2-1", name: "Torre A", address: "Cra 7 # 71-21, Piso 10" },
+            { id: "sede-2-2", name: "Torre B", address: "Cra 7 # 71-21, Piso 20" },
+        ]
+    },
+    { 
+        id: "cliente-3", 
+        name: "Centro Comercial Oasis",
+        nit: "901.234.567-8",
+        phone: "3202345678",
+        email: "gerencia@ccoasis.com",
+        address: "Autopista Norte Km 19",
+        city: "Chía",
+        sites: [
+             { id: "sede-3-1", name: "Principal", address: "Autopista Norte Km 19" }
+        ]
+    },
 ];
 
 export type EquipmentStatus = "ok" | "critico";
