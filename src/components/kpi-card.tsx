@@ -49,7 +49,7 @@ export function KpiCard({
             {LucideIcon && <LucideIcon className={cn("h-4 w-4", colorClasses[color])} />}
         </div>
       </CardHeader>
-      <CardContent className="p-6 pt-0 flex flex-col justify-end min-h-[90px]">
+      <CardContent className="p-6 pt-0 flex flex-col justify-end min-h-24">
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="kpi-metric">{metric}</p>
@@ -60,8 +60,8 @@ export function KpiCard({
               <KpiDonutChart 
                 percentage={compliance} 
                 color={chartColors[color]}
-                strokeWidth={12}
-                size={60}
+                strokeWidth={8}
+                size={64}
               />
             )}
           </div>

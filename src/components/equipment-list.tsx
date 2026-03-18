@@ -127,7 +127,7 @@ export function EquipmentListComponent() {
                   </Badge>
                 </div>
               </CardHeader>
-              <CardContent className="flex-grow space-y-3 text-sm text-muted-foreground">
+              <CardContent className="flex-grow space-y-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <Building className="h-4 w-4 text-muted-foreground" />
                   <span>{eq.clientName}</span>

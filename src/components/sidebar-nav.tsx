@@ -57,7 +57,7 @@ export function SidebarNav({
         </SidebarMenu>
 
         <div className="mt-4">
-            <p className="px-2 text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-1 group-data-[collapsible=icon]:hidden">OPERACIÓN</p>
+            <p className="px-2 text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-2 group-data-[collapsible=icon]:hidden">OPERACIÓN</p>
             <SidebarMenu>
                  {operationItems.map((item) => (
                     <SidebarMenuItem key={item.name}>
@@ -75,7 +75,7 @@ export function SidebarNav({
         </div>
 
         <div className="mt-4">
-            <p className="px-2 text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-1 group-data-[collapsible=icon]:hidden">LOGÍSTICA</p>
+            <p className="px-2 text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-2 group-data-[collapsible=icon]:hidden">LOGÍSTICA</p>
             <SidebarMenu>
                 {logisticsItems.map((item) => (
                     <SidebarMenuItem key={item.name}>

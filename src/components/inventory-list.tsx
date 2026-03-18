@@ -118,7 +118,7 @@ export function InventoryListComponent() {
                   </Badge>
                 )}
               </CardHeader>
-              <CardContent className="flex-grow space-y-3 text-sm">
+              <CardContent className="flex-grow space-y-4 text-sm">
                 <div className="flex items-center gap-2 text-foreground">
                   <Archive className="h-4 w-4 text-muted-foreground" />
                   <span className="font-bold text-lg">{item.stock}</span>

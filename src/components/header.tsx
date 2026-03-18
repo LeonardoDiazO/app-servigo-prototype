@@ -18,7 +18,7 @@ import { clients } from "@/lib/data"
 
 export function Header() {
   return (
-    <header className="flex h-[70px] items-center gap-4 border-b bg-card px-4 lg:px-6">
+    <header className="flex h-16 items-center gap-4 border-b bg-card px-4 lg:px-6">
       <div className="flex items-center gap-4">
         <SidebarTrigger className="md:hidden" />
         <Link href="/" className="flex items-center gap-2">
@@ -50,7 +50,7 @@ export function Header() {
       <div className="ml-auto flex items-center gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="h-9 gap-1.5">
+            <Button variant="outline" className="h-10 gap-2">
               <Building className="h-3.5 w-3.5" />
               <span className="hidden sm:inline-block whitespace-nowrap">
                 Sede Actual
@@ -72,9 +72,9 @@ export function Header() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="relative h-9 w-9 rounded-full"
+                className="relative h-10 w-10 rounded-full"
               >
-                <Avatar className="h-9 w-9">
+                <Avatar className="h-10 w-10">
                   <AvatarFallback>
                     <User className="h-5 w-5" />
                   </AvatarFallback>
