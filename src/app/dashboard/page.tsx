@@ -12,13 +12,12 @@ import {
 } from "@/components/ui/sidebar"
 import { SidebarNav } from "@/components/sidebar-nav"
 import { Header } from "@/components/header"
-import { kpiData, equipment, clients } from "@/lib/data"
+import { kpiData, equipment, serviceOrders, technicians } from "@/lib/data"
 import { KpiCard } from "@/components/kpi-card"
 import { OrderServiceForm } from "@/components/order-service-form"
 import { EquipmentListComponent } from "@/components/equipment-list"
 import { ClientListComponent } from "@/components/client-list"
 import { InventoryListComponent } from "@/components/inventory-list"
-import { EquipmentMap } from "@/components/equipment-map"
 import { RecentSales } from "@/components/recent-sales"
 
 export type Module =
@@ -29,26 +28,32 @@ export type Module =
   | "Inventario"
 
 const DashboardContent = () => {
-    const criticalEquipment = useMemo(() => {
-        const critical = equipment.filter(eq => eq.status === 'critico');
-        return critical.map(eq => {
-            const client = clients.find(c => c.id === eq.clientId);
-            return {
-                ...eq,
-                clientName: client?.name || "Cliente Desconocido",
-                address: client?.address || "Dirección no disponible"
-            };
-        });
+    const criticalEquipmentCount = useMemo(() => {
+        return equipment.filter(eq => eq.status === 'critico').length;
+    }, []);
+
+    const ordersTodayCount = useMemo(() => {
+        return serviceOrders.filter(o => o.time !== 'Ayer').length;
+    }, []);
+
+    const activeTechniciansCount = useMemo(() => {
+        return technicians.filter(t => t.id !== 'tech-admin').length;
     }, []);
 
     const updatedKpiData = useMemo(() => {
         return kpiData.map(kpi => {
             if (kpi.title === "Equipos Críticos") {
-                return { ...kpi, metric: criticalEquipment.length.toString() };
+                return { ...kpi, metric: criticalEquipmentCount.toString() };
+            }
+            if (kpi.title === "OS Hoy") {
+                return { ...kpi, metric: ordersTodayCount.toString() };
+            }
+             if (kpi.title === "Técnicos Activos") {
+                return { ...kpi, metric: activeTechniciansCount.toString() };
             }
             return kpi;
         });
-    }, [criticalEquipment.length]);
+    }, [criticalEquipmentCount, ordersTodayCount, activeTechniciansCount]);
 
   return (
     <div className="space-y-6">
@@ -57,8 +62,7 @@ const DashboardContent = () => {
           <KpiCard key={kpi.title} {...kpi} />
         ))}
       </div>
-      <div className="grid gap-6 lg:grid-cols-2">
-        <EquipmentMap criticalEquipment={criticalEquipment} />
+      <div className="grid gap-6">
         <RecentSales />
       </div>
     </div>
