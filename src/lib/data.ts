@@ -60,12 +60,22 @@ export const clients = [
     { id: "cliente-3", name: "Centro Comercial Oasis" },
 ];
 
-export const equipment = [
-    { id: "eq-1", name: "Unidad A/C Central 1", location: "Grand Hotel Plaza", clientId: "cliente-1" },
-    { id: "eq-2", name: "Unidad A/C Central 2", location: "Grand Hotel Plaza", clientId: "cliente-1" },
-    { id: "eq-3", name: "Sistema de Ventilación Torre A", location: "Torres Corporativas Capital", clientId: "cliente-2" },
-    { id: "eq-4", name: "Chiller Principal", location: "Centro Comercial Oasis", clientId: "cliente-3" },
-    { id: "eq-5", name: "Bomba de Agua Torre B", location: "Torres Corporativas Capital", clientId: "cliente-2" },
+export type EquipmentStatus = "ok" | "critico";
+
+export interface IEquipment {
+    id: string;
+    name: string;
+    location: string;
+    clientId: string;
+    status: EquipmentStatus;
+}
+
+export const equipment: IEquipment[] = [
+    { id: "eq-1", name: "Unidad A/C Central 1", location: "Planta Baja", clientId: "cliente-1", status: "ok" },
+    { id: "eq-2", name: "Unidad A/C Central 2", location: "Piso 10", clientId: "cliente-1", status: "critico" },
+    { id: "eq-3", name: "Sistema de Ventilación Torre A", location: "Sótano 1", clientId: "cliente-2", status: "ok" },
+    { id: "eq-4", name: "Chiller Principal", location: "Feria de Comida", clientId: "cliente-3", status: "critico" },
+    { id: "eq-5", name: "Bomba de Agua Torre B", location: "Sala de Bombas", clientId: "cliente-2", status: "ok" },
 ];
 
 export const technicians = [

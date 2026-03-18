@@ -14,6 +14,7 @@ import AiInsightsCard from "@/components/ai-insights-card"
 import { DepartmentPerformanceChart } from "@/components/department-performance-chart"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { OrderServiceForm } from "@/components/order-service-form"
+import { EquipmentListComponent } from "@/components/equipment-list"
 
 export type Module = 'Dashboard' | 'Clientes' | 'Equipos' | 'Ordenes' | 'Inventario';
 
@@ -75,7 +76,7 @@ export default function Home() {
             {currentModule === "Clientes" && (
               <PlaceholderContent module="Clientes" />
             )}
-            {currentModule === "Equipos" && <PlaceholderContent module="Equipos" />}
+            {currentModule === "Equipos" && <EquipmentListComponent />}
             {currentModule === "Ordenes" && <OrderServiceForm />}
             {currentModule === "Inventario" && (
               <PlaceholderContent module="Inventario" />
