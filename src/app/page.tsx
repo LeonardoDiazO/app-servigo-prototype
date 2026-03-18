@@ -32,7 +32,7 @@ export default function Home() {
               ))}
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-              <Card className="neumorphic-card lg:col-span-4">
+              <Card className="card-sg lg:col-span-4">
                 <CardHeader>
                   <CardTitle className="card-title-text">
                     Department Performance

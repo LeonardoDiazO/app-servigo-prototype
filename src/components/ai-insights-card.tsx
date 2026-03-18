@@ -47,7 +47,7 @@ export default function AiInsightsCard({ metrics }: AiInsightsCardProps) {
   }
 
   return (
-    <Card className="neumorphic-card h-full">
+    <Card className="card-sg h-full">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="card-title-text">AI-Powered Insights</CardTitle>
         <BrainCircuit className="h-4 w-4 text-muted-foreground" />

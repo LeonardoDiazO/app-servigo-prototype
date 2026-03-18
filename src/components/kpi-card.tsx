@@ -45,7 +45,7 @@ export function KpiCard({
     changeType === "increase" ? "text-green-500" : "text-red-500"
 
   return (
-    <Card className="neumorphic-card">
+    <Card className="card-sg">
       <CardHeader className="p-4 pb-0">
         <CardTitle className="card-title-text">{title}</CardTitle>
       </CardHeader>

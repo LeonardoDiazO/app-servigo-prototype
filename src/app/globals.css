@@ -10,27 +10,27 @@
     --card-foreground: 210 29% 25%;
     --popover: 0 0% 100%;
     --popover-foreground: 210 29% 25%;
-    --primary: 210 10% 27%; /* #3D454D */
+    --primary: 210 29% 25%; /* #2C3E50 */
     --primary-foreground: 0 0% 98%;
-    --secondary: 220 13% 91%;
-    --secondary-foreground: 210 10% 27%;
+    --secondary: 210 17% 98%; /* #F8F9FA */
+    --secondary-foreground: 210 29% 25%;
     --muted: 220 13% 85%;
-    --muted-foreground: 210 10% 45%;
-    --accent: 187 80% 36%; /* #1395A3 */
+    --muted-foreground: 204 14% 62%; /* #90A4AE */
+    --accent: 187 100% 33%; /* #0097A7 */
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 13% 88%; /* #E0E0E0 */
     --input: 220 13% 88%;
-    --ring: 187 80% 36%;
+    --ring: 187 100% 33%;
     --radius: 0.75rem; /* 12px */
 
     /* Chart Colors from design system */
     --chart-1: 336 82% 52%; /* #E91E63 */
     --chart-2: 187 100% 33%; /* #0097A7 */
     --chart-3: 210 29% 25%; /* #2C3E50 */
-    --chart-4: 204 7% 53%; /* #78909C */
-    --chart-5: 337 72% 56%; /* #FF4081 - warning_pink */
+    --chart-4: 204 13% 53%; /* #78909C */
+    --chart-5: 337 100% 63%; /* #FF4081 - warning_pink */
     
     /* Brand-specific colors and styles */
     --primary-magenta: 336 82% 52%;
@@ -79,14 +79,14 @@
 }
 
 @layer components {
-  .neumorphic-card {
+  .card-sg {
     @apply bg-card border-0;
     border-radius: var(--radius);
     box-shadow: 8px 8px 16px var(--card-shadow-dark), -8px -8px 16px var(--card-shadow-light);
     transition: all 0.2s ease-in-out;
   }
 
-  .neumorphic-card:hover {
+  .card-sg:hover {
     transform: translateY(-2px);
     box-shadow: 10px 10px 20px var(--card-shadow-dark), -10px -10px 20px var(--card-shadow-light);
   }
