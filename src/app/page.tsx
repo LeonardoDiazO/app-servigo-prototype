@@ -14,6 +14,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { ServiceOrderComponent } from "@/components/service-order-component"
 import { EquipmentListComponent } from "@/components/equipment-list"
 import { ClientListComponent } from "@/components/client-list"
+import { InventoryListComponent } from "@/components/inventory-list"
 
 export type Module =
   | "Dashboard"
@@ -62,9 +63,7 @@ export default function Home() {
             {currentModule === "Clientes" && <ClientListComponent />}
             {currentModule === "Equipos" && <EquipmentListComponent />}
             {currentModule === "Ordenes" && <ServiceOrderComponent />}
-            {currentModule === "Inventario" && (
-              <PlaceholderContent module="Inventario" />
-            )}
+            {currentModule === "Inventario" && <InventoryListComponent />}
           </main>
         </div>
       </SidebarInset>

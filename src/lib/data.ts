@@ -74,11 +74,24 @@ export const technicians = [
     { id: "tech-3", name: "Ana Torres" },
 ];
 
-export const inventory = [
-    { id: "inv-1", name: "Filtro de Aire 20x20", stock: 50 },
-    { id: "inv-2", name: "Compresor Rotativo 5 Ton", stock: 12 },
-    { id: "inv-3", name: "Refrigerante R410A (Cilindro)", stock: 5 },
-    { id: "inv-4", name: "Termostato Digital Programable", stock: 25 },
+export type InventoryItemType = 'generic' | 'serialized';
+
+export interface IInventoryItem {
+    id: string;
+    name: string;
+    type: InventoryItemType;
+    stock: number; // For generic: quantity. For serialized: count of serial numbers.
+    criticalStockLevel: number;
+    serials?: string[];
+    location: string; // e.g., 'Bodega Principal', 'Técnico Carlos'
+}
+
+export const inventory: IInventoryItem[] = [
+    { id: "inv-1", name: "Filtro de Aire 20x20", type: 'generic', stock: 50, criticalStockLevel: 10, location: "Bodega Principal" },
+    { id: "inv-2", name: "Compresor Rotativo 5 Ton", type: 'serialized', stock: 5, criticalStockLevel: 2, serials: ["COMP-001", "COMP-002", "COMP-003", "COMP-004", "COMP-005"], location: "Bodega Principal" },
+    { id: "inv-3", name: "Refrigerante R410A (Cilindro)", type: 'generic', stock: 3, criticalStockLevel: 5, location: "Bodega Principal" },
+    { id: "inv-4", name: "Termostato Digital Programable", type: 'generic', stock: 25, criticalStockLevel: 10, location: "Técnico Carlos" },
+    { id: "inv-5", name: "Tarjeta Controladora Universal", type: 'serialized', stock: 1, criticalStockLevel: 2, serials: ["CTRL-A-1001"], location: "Técnico Luis" },
 ];
 
 export interface KpiCardProps {
