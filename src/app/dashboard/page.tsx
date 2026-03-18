@@ -14,7 +14,7 @@ import { SidebarNav } from "@/components/sidebar-nav"
 import { Header } from "@/components/header"
 import { kpiData, equipment, clients } from "@/lib/data"
 import { KpiCard } from "@/components/kpi-card"
-import { ServiceOrderComponent } from "@/components/service-order-component"
+import { OrderServiceForm } from "@/components/order-service-form"
 import { EquipmentListComponent } from "@/components/equipment-list"
 import { ClientListComponent } from "@/components/client-list"
 import { InventoryListComponent } from "@/components/inventory-list"
@@ -102,7 +102,7 @@ export default function DashboardPage() {
             {currentModule === "Dashboard" && <DashboardContent />}
             {currentModule === "Clientes" && <ClientListComponent />}
             {currentModule === "Equipos" && <EquipmentListComponent />}
-            {currentModule === "Ordenes" && <ServiceOrderComponent />}
+            {currentModule === "Ordenes" && <OrderServiceForm />}
             {currentModule === "Inventario" && <InventoryListComponent />}
           </main>
         </div>
