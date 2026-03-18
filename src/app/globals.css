@@ -4,81 +4,80 @@
 
 @layer base {
   :root {
-    --background: 220 17% 94%; /* #F0F2F5 */
-    --foreground: 210 29% 25%; /* #2C3E50 */
+    --background: 150 14% 96%; /* #F4F7F6 */
+    --foreground: 0 0% 13%; /* #212121 */
     --card: 0 0% 100%;
-    --card-foreground: 210 29% 25%;
+    --card-foreground: 0 0% 13%;
     --popover: 0 0% 100%;
-    --popover-foreground: 210 29% 25%;
-    --primary: 210 29% 25%; /* #2C3E50 */
+    --popover-foreground: 0 0% 13%;
+    --primary: 211 100% 50%; /* #007BFF - primary-blue */
     --primary-foreground: 0 0% 98%;
     --secondary: 210 17% 98%; /* #F8F9FA */
-    --secondary-foreground: 210 29% 25%;
+    --secondary-foreground: 0 0% 13%;
     --muted: 220 13% 85%;
-    --muted-foreground: 204 14% 62%; /* #90A4AE */
-    --accent: 187 100% 33%; /* #0097A7 */
+    --muted-foreground: 204 14% 62%;
+    --accent: 16 100% 57%; /* #FF5722 - primary-orange */
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 88%; /* #E0E0E0 */
+    --border: 220 13% 88%;
     --input: 220 13% 88%;
-    --ring: 187 100% 33%;
-    --radius: 0.75rem; /* 12px */
+    --ring: 211 100% 50%;
+    --radius: 0.5rem; /* 8px */
 
-    /* Chart Colors from design system */
-    --chart-1: 336 82% 52%; /* #E91E63 */
-    --chart-2: 187 100% 33%; /* #0097A7 */
-    --chart-3: 210 29% 25%; /* #2C3E50 */
-    --chart-4: 204 13% 53%; /* #78909C */
-    --chart-5: 337 100% 63%; /* #FF4081 - warning_pink */
+    /* Chart Colors from new design system */
+    --chart-1: 16 100% 57%;   /* Orange */
+    --chart-2: 211 100% 50%;  /* Blue */
+    --chart-3: 0 0% 13%;      /* Dark Text */
+    --chart-4: 204 14% 62%;   /* Muted Foreground */
+    --chart-5: 0 84.2% 60.2%; /* Destructive Red */
     
-    /* Brand-specific colors and styles */
-    --primary-magenta: 336 82% 52%;
-    --primary-cyan: 187 100% 33%;
-    --bg-main: 220 17% 94%;
-    --card-shadow-light: #ffffff;
-    --card-shadow-dark: #d1d9e6;
+    /* Legacy Brand color variables updated to new palette */
+    /* This ensures components using old class names get new colors */
+    --primary-magenta: 16 100% 57%; /* Now Orange */
+    --primary-cyan: 211 100% 50%;   /* Now Blue */
 
     /* Sidebar colors */
     --sidebar-background: 210 17% 98%; /* #F8F9FA */
-    --sidebar-foreground: 210 29% 25%; /* #2C3E50 */
-    --sidebar-accent: 336 82% 52%; /* #E91E63 */
+    --sidebar-foreground: 0 0% 13%;
+    --sidebar-accent: 16 100% 57%; /* Orange */
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 220 13% 88%;
-    --sidebar-ring: 336 82% 52%;
+    --sidebar-ring: 16 100% 57%;
   }
  
   .dark {
-    --background: 210 29% 10%;
-    --foreground: 220 17% 94%;
-    --card: 210 29% 15%;
-    --card-foreground: 220 17% 94%;
-    --popover: 210 29% 10%;
-    --popover-foreground: 220 17% 94%;
-    --primary: 220 17% 94%;
-    --primary-foreground: 210 10% 27%;
-    --secondary: 210 29% 20%;
-    --secondary-foreground: 220 17% 94%;
-    --muted: 210 29% 20%;
-    --muted-foreground: 220 17% 80%;
-    --accent: 187 80% 46%;
-    --accent-foreground: 210 29% 10%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 210 10% 12%;
+    --foreground: 210 15% 96%;
+    --card: 210 10% 17%;
+    --card-foreground: 210 15% 96%;
+    --popover: 210 10% 12%;
+    --popover-foreground: 210 15% 96%;
+    --primary: 211 100% 65%;
+    --primary-foreground: 211 100% 10%;
+    --secondary: 210 10% 22%;
+    --secondary-foreground: 210 15% 96%;
+    --muted: 210 10% 22%;
+    --muted-foreground: 210 15% 70%;
+    --accent: 16 100% 65%;
+    --accent-foreground: 16 100% 10%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 210 29% 20%;
-    --input: 210 29% 20%;
-    --ring: 187 80% 46%;
+    --border: 210 10% 25%;
+    --input: 210 10% 25%;
+    --ring: 211 100% 65%;
 
-    --card-shadow-light: hsl(210 29% 20%);
-    --card-shadow-dark: hsl(210 29% 5%);
+    /* Legacy Brand color variables updated for dark mode */
+    --primary-magenta: 16 100% 65%;
+    --primary-cyan: 211 100% 65%;
 
     /* Sidebar colors */
-    --sidebar-background: 210 29% 10%;
-    --sidebar-foreground: 220 17% 94%;
-    --sidebar-accent: 336 70% 60%;
-    --sidebar-accent-foreground: 210 29% 10%;
-    --sidebar-border: 210 29% 20%;
-    --sidebar-ring: 336 70% 60%;
+    --sidebar-background: 210 10% 12%;
+    --sidebar-foreground: 210 15% 96%;
+    --sidebar-accent: 16 100% 65%;
+    --sidebar-accent-foreground: 16 100% 10%;
+    --sidebar-border: 210 10% 25%;
+    --sidebar-ring: 16 100% 65%;
   }
 }
  
@@ -98,21 +97,18 @@
   .card-sg {
     @apply bg-card border-0;
     border-radius: var(--radius);
-    box-shadow: -6px -6px 12px var(--card-shadow-light), 6px 6px 12px var(--card-shadow-dark);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     transition: all 0.2s ease-in-out;
   }
 
   .card-sg:hover {
     transform: translateY(-2px);
-    box-shadow: -8px -8px 16px var(--card-shadow-light), 8px 8px 16px var(--card-shadow-dark);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.07);
   }
 
-  .neumorphic-button {
-    @apply rounded-md bg-background shadow-[-5px_-5px_10px_var(--card-shadow-light),5px_5px_10px_var(--card-shadow-dark)];
-  }
-
-  .neumorphic-button:active {
-    @apply shadow-[inset_-5px_-5px_10px_var(--card-shadow-light),inset_5px_5px_10px_var(--card-shadow-dark)];
+  .dark .card-sg {
+    @apply border border-border;
+    box-shadow: none;
   }
 
   .kpi-metric {
