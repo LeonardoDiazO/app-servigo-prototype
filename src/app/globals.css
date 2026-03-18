@@ -10,40 +10,40 @@
     --card-foreground: 0 0% 13%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 13%;
-    --primary: 211 100% 50%; /* #007BFF - primary-blue */
+    --primary: 224 82% 57%; /* #2563EB */
     --primary-foreground: 0 0% 98%;
     --secondary: 210 17% 98%; /* #F8F9FA */
     --secondary-foreground: 0 0% 13%;
     --muted: 220 13% 85%;
     --muted-foreground: 204 14% 62%;
-    --accent: 16 100% 57%; /* #FF5722 - primary-orange */
+    --accent: 28 95% 53%; /* #F97316 */
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 13% 88%;
     --input: 220 13% 88%;
-    --ring: 211 100% 50%;
+    --ring: 224 82% 57%;
     --radius: 0.5rem; /* 8px */
 
     /* Chart Colors from new design system */
-    --chart-1: 16 100% 57%;   /* Orange */
-    --chart-2: 211 100% 50%;  /* Blue */
+    --chart-1: 28 95% 53%;   /* Orange */
+    --chart-2: 224 82% 57%;  /* Blue */
     --chart-3: 0 0% 13%;      /* Dark Text */
     --chart-4: 204 14% 62%;   /* Muted Foreground */
     --chart-5: 0 84.2% 60.2%; /* Destructive Red */
     
     /* Legacy Brand color variables updated to new palette */
     /* This ensures components using old class names get new colors */
-    --primary-magenta: 16 100% 57%; /* Now Orange */
-    --primary-cyan: 211 100% 50%;   /* Now Blue */
+    --primary-magenta: 28 95% 53%; /* Now Orange */
+    --primary-cyan: 224 82% 57%;   /* Now Blue */
 
     /* Sidebar colors */
     --sidebar-background: 210 17% 98%; /* #F8F9FA */
     --sidebar-foreground: 0 0% 13%;
-    --sidebar-accent: 16 100% 57%; /* Orange */
+    --sidebar-accent: 28 95% 53%; /* Orange */
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 220 13% 88%;
-    --sidebar-ring: 16 100% 57%;
+    --sidebar-ring: 28 95% 53%;
   }
  
   .dark {
@@ -53,31 +53,31 @@
     --card-foreground: 210 15% 96%;
     --popover: 210 10% 12%;
     --popover-foreground: 210 15% 96%;
-    --primary: 211 100% 65%;
-    --primary-foreground: 211 100% 10%;
+    --primary: 224 82% 70%;
+    --primary-foreground: 224 82% 10%;
     --secondary: 210 10% 22%;
     --secondary-foreground: 210 15% 96%;
     --muted: 210 10% 22%;
     --muted-foreground: 210 15% 70%;
-    --accent: 16 100% 65%;
-    --accent-foreground: 16 100% 10%;
+    --accent: 28 95% 65%;
+    --accent-foreground: 28 95% 10%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
     --border: 210 10% 25%;
     --input: 210 10% 25%;
-    --ring: 211 100% 65%;
+    --ring: 224 82% 70%;
 
     /* Legacy Brand color variables updated for dark mode */
-    --primary-magenta: 16 100% 65%;
-    --primary-cyan: 211 100% 65%;
+    --primary-magenta: 28 95% 65%;
+    --primary-cyan: 224 82% 70%;
 
     /* Sidebar colors */
     --sidebar-background: 210 10% 12%;
     --sidebar-foreground: 210 15% 96%;
-    --sidebar-accent: 16 100% 65%;
-    --sidebar-accent-foreground: 16 100% 10%;
+    --sidebar-accent: 28 95% 65%;
+    --sidebar-accent-foreground: 28 95% 10%;
     --sidebar-border: 210 10% 25%;
-    --sidebar-ring: 16 100% 65%;
+    --sidebar-ring: 28 95% 65%;
   }
 }
  
