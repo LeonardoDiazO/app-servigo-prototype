@@ -40,11 +40,11 @@
     --card-shadow-dark: #d1d9e6;
 
     /* Sidebar colors */
-    --sidebar-background: 210 29% 25%; /* #2C3E50 */
-    --sidebar-foreground: 0 0% 98%;
+    --sidebar-background: 210 17% 98%; /* #F8F9FA */
+    --sidebar-foreground: 210 29% 25%; /* #2C3E50 */
     --sidebar-accent: 336 82% 52%; /* #E91E63 */
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 210 29% 35%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 220 13% 88%;
     --sidebar-ring: 336 82% 52%;
   }
  
