@@ -9,7 +9,7 @@ import {
   ToastTitle,
   ToastViewport,
 } from "@/components/ui/toast"
-import { CheckCircle2 } from "lucide-react"
+import { CheckCircle2, AlertTriangle } from "lucide-react"
 
 export function Toaster() {
   const { toasts } = useToast()
@@ -20,6 +20,7 @@ export function Toaster() {
         return (
           <Toast key={id} variant={variant} {...props}>
              {variant === "success" && <CheckCircle2 className="h-5 w-5 text-success mr-2" />}
+             {variant === "warning" && <AlertTriangle className="h-5 w-5 text-accent mr-2" />}
             <div className="grid gap-1">
               {title && <ToastTitle>{title}</ToastTitle>}
               {description && (

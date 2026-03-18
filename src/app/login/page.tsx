@@ -34,7 +34,7 @@ export default function LoginPage() {
     // Basic validation
     if (!email || !password) {
       toast({
-        variant: "destructive",
+        variant: "warning",
         title: "Error de validación",
         description: "Por favor, ingrese su correo y contraseña.",
       })
@@ -61,7 +61,7 @@ export default function LoginPage() {
         }
       } else {
         toast({
-          variant: "destructive",
+          variant: "warning",
           title: "Error de Autenticación",
           description: "Credenciales no reconocidas. Inténtalo de nuevo.",
         })
@@ -81,8 +81,8 @@ export default function LoginPage() {
               <g transform="rotate(-45 50 45)">
                   <path d="M50 12 L60 45 L50 45 Z" fill="#1E3A8A" />
                   <path d="M50 12 L40 45 L50 45 Z" fill="#3B82F6" />
-                  <path d="M50 78 L60 45 L50 45 Z" fill="#F97316" />
-                  <path d="M50 78 L40 45 L50 45 Z" fill="#C2410C" />
+                  <path d="M50 78 L60 45 L50 45 Z" fill="#C2410C" />
+                  <path d="M50 78 L40 45 L50 45 Z" fill="#F97316" />
                   <circle cx="50" cy="45" r="5" fill="white" />
               </g>
           </svg>
@@ -90,7 +90,7 @@ export default function LoginPage() {
               <span className="text-white">ServiGo</span>
               <span className="text-primary">One</span>
           </div>
-          <p className="text-xl mt-4 text-white/80">Plataforma Inteligente de Gestión de Activos</p>
+          <p className="text-xl mt-4 text-white/80">Plataforma Inteligente de Gestión de Activos a escala global</p>
         </div>
       </div>
       <div className="flex items-center justify-center min-h-screen py-12 bg-white">

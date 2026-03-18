@@ -28,7 +28,7 @@
     --border: 220 13% 91%; /* #E2E8F0 */
     --input: 220 13% 88%;
     --ring: 224 82% 57%;
-    --radius: 0.75rem; /* 12px */
+    --radius: 1rem; /* 16px */
 
     /* Chart Colors from new design system */
     --chart-1: 28 95% 53%;   /* Orange */
@@ -150,5 +150,7 @@
   }
   .btn-gradient:hover {
     opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
 }

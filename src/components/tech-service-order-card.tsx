@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { IServiceOrder, ServiceOrderStatus } from "@/lib/data"
+import { IServiceOrder, ServiceOrderStatus, EquipmentHealth } from "@/lib/data"
 import {
   Card,
   CardContent,
@@ -19,6 +19,12 @@ const healthColorMap = {
   Preventivo: "bg-warning", // Yellow
   OK: "bg-success", // Green
 }
+
+const healthTextMap: Record<EquipmentHealth, string> = {
+  Crítico: "Urgente",
+  Preventivo: "Pendiente",
+  OK: "Normal",
+};
 
 const formatTime = (seconds: number) => {
   const h = Math.floor(seconds / 3600).toString().padStart(2, '0')
@@ -60,10 +66,12 @@ export function TechServiceOrderCard({ order }: { order: IServiceOrder }) {
               "text-xs font-semibold uppercase",
               healthColorMap[order.equipmentHealth]
                 .replace("bg-", "text-")
-                .replace("destructive", "destructive")
+                .replace("destructive", "text-destructive")
+                .replace("warning", "text-warning-foreground")
+                .replace("success", "text-success-foreground")
             )}
           >
-            {order.equipmentHealth}
+            {healthTextMap[order.equipmentHealth]}
           </span>
           <div
             className={cn(
@@ -120,6 +128,7 @@ export function TechServiceOrderCard({ order }: { order: IServiceOrder }) {
                 onClick={handleEndService}
                 className="w-full"
                 variant="destructive"
+                size="lg"
             >
                 Finalizar Servicio
             </Button>

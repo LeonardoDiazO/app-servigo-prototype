@@ -28,6 +28,8 @@ export default function MisOrdenesPage() {
     return sorted.filter((order) => order.technicianName === user.name)
   }, [user])
 
+  const pendingServices = myServiceOrders.filter(order => order.status === 'Pendiente').length;
+
   if (loading || !user) {
     return (
       <div className="flex min-h-screen w-full flex-col items-center justify-center gap-4 bg-background">
@@ -39,10 +41,15 @@ export default function MisOrdenesPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
-       <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 py-4">
+       <header className="sticky top-0 z-30 flex h-auto flex-col items-start gap-1 border-b bg-background px-4 py-4 sm:px-6">
         <h1 className="text-2xl font-bold">Servicios para Hoy</h1>
+        {pendingServices > 0 && (
+          <p className="text-sm text-muted-foreground">
+            Hoy tienes {pendingServices} {pendingServices === 1 ? 'servicio pendiente' : 'servicios pendientes'}.
+          </p>
+        )}
       </header>
-      <main className="flex flex-1 flex-col gap-4 p-4 pt-0 md:gap-8 md:p-6">
+      <main className="flex flex-1 flex-col gap-4 p-4 pt-4 md:gap-8 md:p-6">
         {myServiceOrders.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {myServiceOrders.map((order) => (

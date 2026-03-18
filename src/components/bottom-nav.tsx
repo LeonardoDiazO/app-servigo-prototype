@@ -2,13 +2,13 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ClipboardList, QrCode, User } from "lucide-react"
+import { ClipboardList, QrCode, Boxes } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navItems = [
   { href: "/tech/mis-ordenes", label: "Mis Órdenes", icon: ClipboardList },
   { href: "/tech/escanear", label: "Escanear QR", icon: QrCode },
-  { href: "/tech/perfil", label: "Perfil", icon: User },
+  { href: "/tech/mi-bodega", label: "Mi Bodega", icon: Boxes },
 ]
 
 export function BottomNav() {
