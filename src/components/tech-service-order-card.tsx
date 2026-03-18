@@ -14,10 +14,10 @@ import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { Clock, MapPin, HardHat, CheckCircle } from "lucide-react"
 
-const healthColorMap: Record<EquipmentHealth, string> = {
-  Crítico: "border-destructive text-destructive bg-destructive/10",
-  Preventivo: "border-warning text-warning-foreground bg-warning/10",
-  OK: "border-green-500 text-green-600 bg-green-500/10",
+const healthBorderMap: Record<EquipmentHealth, string> = {
+  Crítico: "border-l-destructive",
+  Preventivo: "border-l-warning",
+  OK: "border-l-success",
 };
 
 const healthTextMap: Record<EquipmentHealth, string> = {
@@ -34,14 +34,18 @@ const statusBadgeMap: Record<ServiceOrderStatus, string> = {
 
 export function TechServiceOrderCard({ order }: { order: IServiceOrder }) {
   return (
-    <Card className="sg-card flex w-full flex-col">
+    <Card className={cn("sg-card flex w-full flex-col border-l-4", healthBorderMap[order.equipmentHealth])}>
       <CardHeader>
          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
                 <Clock className="h-5 w-5 text-primary" />
                 <CardTitle className="text-xl font-bold">{order.time}</CardTitle>
             </div>
-            <Badge className={cn(healthColorMap[order.equipmentHealth], "font-bold")}>
+             <Badge className={cn("font-bold text-xs uppercase", {
+                "border-destructive text-destructive bg-destructive/10": order.equipmentHealth === 'Crítico',
+                "border-warning text-warning-foreground bg-warning/10": order.equipmentHealth === 'Preventivo',
+                "border-green-500 text-green-600 bg-green-500/10": order.equipmentHealth === 'OK'
+             })}>
                 {healthTextMap[order.equipmentHealth]}
             </Badge>
         </div>
@@ -67,7 +71,9 @@ export function TechServiceOrderCard({ order }: { order: IServiceOrder }) {
         </div>
       </CardContent>
       <CardFooter>
-        <Button asChild className="w-full btn-gradient text-white">
+        <Button asChild size="lg" className={cn("w-full font-bold",
+            order.status !== "Completado" ? "bg-accent hover:bg-accent/90 text-accent-foreground" : "btn-gradient text-white"
+        )}>
           <Link href={`/tech/mis-ordenes/${order.id}`}>
             <HardHat className="mr-2" />
             {order.status === "Completado" ? "Ver Detalle" : "Gestionar Servicio"}

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useAuth, User } from "@/context/auth-context"
-import { Loader } from "lucide-react"
+import { Loader, User as UserIcon, Lock } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 // A simple mock DB of users
@@ -22,7 +22,7 @@ const usersDb: { [email: string]: { password: string; user: User } } = {
 }
 
 const ServiGoLogo = ({className}: {className?: string}) => (
-     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={cn("h-24 w-24 text-white", className)}>
+     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" className={cn("h-24 w-24", className)}>
         <path d="M50 12 L56 12 L58 20 C62 22 66 25 69 29 L77 27 L80 33 L73 38 C74 42 74 47 73 51 L80 56 L77 62 L69 60 C66 64 62 67 58 69 L56 77 L50 77 L48 69 C44 67 40 64 37 60 L29 62 L26 56 L33 51 C32 47 32 42 33 38 L26 33 L29 27 L37 29 C40 25 44 22 48 20 L50 12 Z" fill="currentColor" />
         <circle cx="50" cy="45" r="20" fill="#1E3A8A" />
         <g transform="rotate(-45 50 45)">
@@ -70,15 +70,14 @@ export default function LoginPage() {
 
   return (
     <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 animate-in fade-in-0 duration-500">
-      <div className="relative hidden bg-primary-dark lg:flex flex-col items-center justify-center p-10 text-white">
-        <div className="absolute inset-0 bg-[#1E3A8A]" />
+      <div className="relative hidden bg-[#1E3A8A] lg:flex flex-col items-center justify-center p-10 text-white">
         <div className="relative z-20 flex flex-col items-center text-center">
-            <ServiGoLogo className="mb-6 h-28 w-28" />
-            <div className="flex items-baseline font-bold text-5xl mb-4">
+            <ServiGoLogo className="mb-8 h-28 w-28 text-white" />
+             <div className="flex items-baseline font-bold text-5xl mb-4">
                 <span className="text-white">ServiGo</span>
                 <span className="text-primary">One</span>
             </div>
-            <p className="text-xl mt-4 text-white/80">Plataforma Inteligente de Gestión de Activos</p>
+            <p className="text-xl mt-4 text-white/80 max-w-sm">Gestión Inteligente de Activos y Servicios de Campo</p>
         </div>
       </div>
       <div className="flex items-center justify-center min-h-screen py-24 bg-background relative">
@@ -103,31 +102,37 @@ export default function LoginPage() {
           <form onSubmit={handleLogin} className="grid gap-6">
             <div className="grid gap-2">
               <Label htmlFor="email">Correo Electrónico</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@ejemplo.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="h-12 text-base rounded-md"
-                disabled={isLoggingIn}
-              />
+              <div className="relative">
+                <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="m@ejemplo.com"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="h-12 text-base rounded-lg pl-10"
+                  disabled={isLoggingIn}
+                />
+              </div>
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Contraseña</Label>
-              <Input
-                id="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={cn(
-                    "h-12 text-base rounded-md",
-                    error && "ring-2 ring-offset-2 ring-accent/70 animate-shake"
-                )}
-                disabled={isLoggingIn}
-              />
+              <div className="relative">
+                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={cn(
+                      "h-12 text-base rounded-lg pl-10",
+                      error && "ring-2 ring-offset-2 ring-accent/70 animate-shake border-accent"
+                  )}
+                  disabled={isLoggingIn}
+                />
+              </div>
             </div>
              {error && <p className="text-sm font-medium text-destructive -mt-3">{error}</p>}
             <Button type="submit" className="w-full btn-gradient text-white font-semibold h-12 text-base rounded-md" disabled={isLoggingIn}>

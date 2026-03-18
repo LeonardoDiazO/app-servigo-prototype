@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 220 16% 96%; /* #F1F5F9 */
+    --background: 210 40% 98%; /* #F8FAFC */
     --foreground: 222 47% 11%; /* #0F172A */
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
@@ -28,7 +28,7 @@
     --border: 220 13% 91%; /* #E2E8F0 */
     --input: 220 13% 88%;
     --ring: 224 82% 57%;
-    --radius: 1rem; /* 16px */
+    --radius: 0.75rem; /* 12px */
 
     /* Chart Colors from new design system */
     --chart-1: 28 95% 53%;   /* Orange */
@@ -99,7 +99,7 @@
     @apply bg-background text-foreground tracking-tight;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
+    @apply font-bold tracking-tight text-foreground;
   }
 }
 
@@ -127,12 +127,12 @@
   .sg-card {
     @apply bg-card border;
     border-radius: var(--radius);
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
     transition: all 0.2s ease-in-out;
   }
 
   .sg-card:hover {
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
     transform: translateY(-2px);
   }
 
@@ -170,7 +170,7 @@
   }
   .btn-gradient:hover {
     opacity: 0.95;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(37, 99, 235, 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
   }
 }
