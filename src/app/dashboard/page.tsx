@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { Loader } from "lucide-react"
 
@@ -12,12 +12,13 @@ import {
 } from "@/components/ui/sidebar"
 import { SidebarNav } from "@/components/sidebar-nav"
 import { Header } from "@/components/header"
-import { kpiData } from "@/lib/data"
+import { kpiData, equipment, clients } from "@/lib/data"
 import { KpiCard } from "@/components/kpi-card"
 import { ServiceOrderComponent } from "@/components/service-order-component"
 import { EquipmentListComponent } from "@/components/equipment-list"
 import { ClientListComponent } from "@/components/client-list"
 import { InventoryListComponent } from "@/components/inventory-list"
+import { EquipmentMap } from "@/components/equipment-map"
 
 export type Module =
   | "Dashboard"
@@ -27,14 +28,37 @@ export type Module =
   | "Inventario"
 
 const DashboardContent = () => {
+    const criticalEquipment = useMemo(() => {
+        const critical = equipment.filter(eq => eq.status === 'critico');
+        return critical.map(eq => {
+            const client = clients.find(c => c.id === eq.clientId);
+            return {
+                ...eq,
+                clientName: client?.name || "Cliente Desconocido",
+                address: client?.address || "Dirección no disponible"
+            };
+        });
+    }, []);
+
+    const updatedKpiData = useMemo(() => {
+        return kpiData.map(kpi => {
+            if (kpi.title === "Equipos Críticos") {
+                return { ...kpi, metric: criticalEquipment.length.toString() };
+            }
+            return kpi;
+        });
+    }, [criticalEquipment.length]);
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {kpiData.map((kpi) => (
+        {updatedKpiData.map((kpi) => (
           <KpiCard key={kpi.title} {...kpi} />
         ))}
       </div>
-      {/* You can add more dashboard widgets here */}
+       <div>
+        <EquipmentMap criticalEquipment={criticalEquipment} />
+      </div>
     </div>
   )
 }
