@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Building, ChevronDown, User } from "lucide-react"
+import { useAuth } from "@/context/auth-context"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -13,10 +14,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { SidebarTrigger } from "./ui/sidebar"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { Avatar, AvatarFallback } from "./ui/avatar"
 import { clients } from "@/lib/data"
 
 export function Header() {
+  const { user, logout } = useAuth()
+
   return (
     <header className="flex h-16 items-center gap-4 border-b bg-card px-4 lg:px-6">
       <div className="flex items-center gap-4">
@@ -84,16 +87,21 @@ export function Header() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/perfil">Perfil</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem>Ajustes</DropdownMenuItem>
               <DropdownMenuItem>Soporte</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Cerrar Sesión</DropdownMenuItem>
+              <DropdownMenuItem onClick={logout}>Cerrar Sesión</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <div className="hidden sm:flex flex-col items-start leading-none">
-            <span className="text-sm font-medium">Mario Rossi</span>
-            <span className="text-xs text-muted-foreground">Admin</span>
-          </div>
+          {user && (
+            <div className="hidden sm:flex flex-col items-start leading-none">
+              <span className="text-sm font-medium">{user.name}</span>
+              <span className="text-xs text-muted-foreground">{user.role}</span>
+            </div>
+          )}
         </div>
       </div>
     </header>

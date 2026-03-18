@@ -1,9 +1,32 @@
+"use client"
+
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/context/auth-context"
 import { Header } from "@/components/header"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { Loader } from "lucide-react"
 
-// NOTE: This is a placeholder page for a technician.
-// A real implementation would have a dedicated layout and navigation.
+
 export default function MisOrdenesPage() {
+    const { user, loading } = useAuth()
+    const router = useRouter()
+
+    useEffect(() => {
+        if (!loading && !user) {
+            router.replace('/login');
+        }
+    }, [user, loading, router]);
+
+    if (loading || !user) {
+        return (
+            <div className="flex min-h-screen w-full flex-col items-center justify-center gap-4 bg-background">
+                <Loader className="h-8 w-8 animate-spin text-primary" />
+                <p className="text-muted-foreground">Cargando...</p>
+            </div>
+        );
+    }
+    
     return (
         <div className="flex min-h-screen w-full flex-col bg-muted/40">
             <Header />

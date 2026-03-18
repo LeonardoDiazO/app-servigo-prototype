@@ -19,6 +19,7 @@ import {
   SidebarFooter,
   SidebarSeparator,
 } from "./ui/sidebar"
+import { useAuth } from "@/context/auth-context"
 
 interface SidebarNavProps {
   currentModule: Module
@@ -29,34 +30,41 @@ export function SidebarNav({
   currentModule,
   setCurrentModule,
 }: SidebarNavProps) {
-  
-  const operationItems: { name: Module; icon: React.ReactNode; tooltip: string }[] = [
-    { name: "Clientes", icon: <Users />, tooltip: "Gestión de Clientes" },
-    { name: "Equipos", icon: <Wrench />, tooltip: "Gestión de Equipos" },
-    { name: "Ordenes", icon: <ClipboardList />, tooltip: "Órdenes de Servicio" },
+  const { user, logout } = useAuth()
+
+  const allOperationItems: { name: Module; icon: React.ReactNode; tooltip: string; roles: ('ADMIN' | 'TECH')[] }[] = [
+    { name: "Clientes", icon: <Users />, tooltip: "Gestión de Clientes", roles: ['ADMIN'] },
+    { name: "Equipos", icon: <Wrench />, tooltip: "Gestión de Equipos", roles: ['ADMIN', 'TECH'] },
+    { name: "Ordenes", icon: <ClipboardList />, tooltip: "Órdenes de Servicio", roles: ['ADMIN', 'TECH'] },
   ]
 
-  const logisticsItems: { name: Module; icon: React.ReactNode; tooltip: string }[] = [
-    { name: "Inventario", icon: <Boxes />, tooltip: "Inventario y Repuestos" },
+  const allLogisticsItems: { name: Module; icon: React.ReactNode; tooltip: string; roles: ('ADMIN' | 'TECH')[] }[] = [
+    { name: "Inventario", icon: <Boxes />, tooltip: "Inventario y Repuestos", roles: ['ADMIN'] },
   ]
+
+  const operationItems = allOperationItems.filter(item => user && item.roles.includes(user.role));
+  const logisticsItems = allLogisticsItems.filter(item => user && item.roles.includes(user.role));
+
 
   return (
     <>
       <SidebarContent className="p-2 pt-8">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              onClick={() => setCurrentModule("Dashboard")}
-              isActive={currentModule === "Dashboard"}
-              tooltip="Vista General"
-            >
-              <LayoutDashboard />
-              Dashboard
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-
-        <div className="mt-4">
+        {user?.role === 'ADMIN' && (
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                onClick={() => setCurrentModule("Dashboard")}
+                isActive={currentModule === "Dashboard"}
+                tooltip="Vista General"
+              >
+                <LayoutDashboard />
+                Dashboard
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        )}
+        
+        {operationItems.length > 0 && <div className="mt-4">
             <p className="px-2 text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-2 group-data-[collapsible=icon]:hidden">OPERACIÓN</p>
             <SidebarMenu>
                  {operationItems.map((item) => (
@@ -72,9 +80,9 @@ export function SidebarNav({
                     </SidebarMenuItem>
                 ))}
             </SidebarMenu>
-        </div>
+        </div>}
 
-        <div className="mt-4">
+        {logisticsItems.length > 0 && <div className="mt-4">
             <p className="px-2 text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-2 group-data-[collapsible=icon]:hidden">LOGÍSTICA</p>
             <SidebarMenu>
                 {logisticsItems.map((item) => (
@@ -90,7 +98,7 @@ export function SidebarNav({
                     </SidebarMenuItem>
                 ))}
             </SidebarMenu>
-        </div>
+        </div>}
       </SidebarContent>
       <SidebarFooter className="p-2">
         <SidebarSeparator />
@@ -102,7 +110,7 @@ export function SidebarNav({
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Cerrar Sesión">
+            <SidebarMenuButton tooltip="Cerrar Sesión" onClick={logout}>
               <LogOut />
               Logout
             </SidebarMenuButton>

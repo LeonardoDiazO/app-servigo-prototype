@@ -6,10 +6,24 @@ import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useAuth, User } from "@/context/auth-context"
+
+// A simple mock DB of users
+const usersDb: { [email: string]: { password: string; user: User } } = {
+  "mario@mappale.com": {
+    password: "123456",
+    user: { name: "Mario Rossi", email: "mario@mappale.com", role: "ADMIN" },
+  },
+  "carlos@mappale.com": {
+    password: "123456",
+    user: { name: "Carlos Mappale", email: "carlos@mappale.com", role: "TECH" },
+  },
+}
 
 export default function LoginPage() {
   const router = useRouter()
   const { toast } = useToast()
+  const { login } = useAuth()
   const [email, setEmail] = useState("mario@mappale.com")
   const [password, setPassword] = useState("123456")
 
@@ -23,22 +37,22 @@ export default function LoginPage() {
       })
       return
     }
+    
+    const lowercasedEmail = email.toLowerCase()
+    const userEntry = usersDb[lowercasedEmail]
 
-    // Hardcoded user check
-    if (email.toLowerCase() === "mario@mappale.com" && password === "123456") {
-      // Assuming this user is an admin
+    if (userEntry && userEntry.password === password) {
+      login(userEntry.user)
       toast({
         title: "Inicio de sesión exitoso",
-        description: "Redirigiendo al dashboard...",
+        description: "Redirigiendo...",
       })
-      router.push("/dashboard")
-    } else if (email.toLowerCase() === "tecnico@servigo.one" && password === "123456") {
-      // Adding a dummy technician user for redirection
-      toast({
-        title: "Inicio de sesión exitoso",
-        description: "Redirigiendo a sus órdenes de servicio...",
-      })
-      router.push("/mis-ordenes")
+
+      if (userEntry.user.role === "ADMIN") {
+        router.push("/dashboard")
+      } else if (userEntry.user.role === "TECH") {
+        router.push("/mis-ordenes")
+      }
     } else {
       toast({
         variant: "destructive",

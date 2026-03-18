@@ -1,6 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { Loader } from "lucide-react"
+
+import { useAuth } from "@/context/auth-context"
 import {
   SidebarProvider,
   Sidebar,
@@ -10,7 +14,6 @@ import { SidebarNav } from "@/components/sidebar-nav"
 import { Header } from "@/components/header"
 import { kpiData } from "@/lib/data"
 import { KpiCard } from "@/components/kpi-card"
-import { Card, CardContent } from "@/components/ui/card"
 import { ServiceOrderComponent } from "@/components/service-order-component"
 import { EquipmentListComponent } from "@/components/equipment-list"
 import { ClientListComponent } from "@/components/client-list"
@@ -38,6 +41,27 @@ const DashboardContent = () => {
 
 export default function DashboardPage() {
   const [currentModule, setCurrentModule] = useState<Module>("Dashboard")
+  const { user, loading } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.replace("/login")
+      } else if (user.role === "TECH") {
+        router.replace("/mis-ordenes")
+      }
+    }
+  }, [user, loading, router])
+
+  if (loading || !user || user.role !== "ADMIN") {
+    return (
+      <div className="flex min-h-screen w-full flex-col items-center justify-center gap-4 bg-background">
+        <Loader className="h-8 w-8 animate-spin text-primary" />
+        <p className="text-muted-foreground">Cargando...</p>
+      </div>
+    )
+  }
 
   return (
     <SidebarProvider>
