@@ -38,6 +38,14 @@
     --bg-main: 220 17% 94%;
     --card-shadow-light: rgba(255, 255, 255, 0.7);
     --card-shadow-dark: rgba(228, 230, 232, 0.6);
+
+    /* Sidebar colors */
+    --sidebar-background: 210 29% 25%; /* #2C3E50 */
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-accent: 336 82% 52%; /* #E91E63 */
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 29% 35%;
+    --sidebar-ring: 336 82% 52%;
   }
  
   .dark {
@@ -63,6 +71,14 @@
 
     --card-shadow-light: rgba(45, 55, 65, 0.3);
     --card-shadow-dark: rgba(0, 0, 0, 0.3);
+
+    /* Sidebar colors */
+    --sidebar-background: 210 29% 10%;
+    --sidebar-foreground: 220 17% 94%;
+    --sidebar-accent: 336 70% 60%;
+    --sidebar-accent-foreground: 210 29% 10%;
+    --sidebar-border: 210 29% 20%;
+    --sidebar-ring: 336 70% 60%;
   }
 }
  
