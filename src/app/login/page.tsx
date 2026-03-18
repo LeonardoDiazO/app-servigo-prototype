@@ -78,7 +78,7 @@ export default function LoginPage() {
                 <span className="text-white">ServiGo</span>
                 <span className="text-primary">One</span>
             </div>
-            <p className="text-xl mt-4 text-white/80">Gestión de activos a escala global</p>
+            <p className="text-xl mt-4 text-white/80">Plataforma Inteligente de Gestión de Activos</p>
         </div>
       </div>
       <div className="flex items-center justify-center min-h-screen py-24 bg-background relative">
@@ -110,7 +110,7 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-12 text-base rounded-lg"
+                className="h-12 text-base rounded-md"
                 disabled={isLoggingIn}
               />
             </div>
@@ -123,14 +123,14 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className={cn(
-                    "h-12 text-base rounded-lg",
+                    "h-12 text-base rounded-md",
                     error && "ring-2 ring-offset-2 ring-accent/70 animate-shake"
                 )}
                 disabled={isLoggingIn}
               />
             </div>
              {error && <p className="text-sm font-medium text-destructive -mt-3">{error}</p>}
-            <Button type="submit" className="w-full btn-gradient text-white font-semibold h-12 text-base rounded-lg" disabled={isLoggingIn}>
+            <Button type="submit" className="w-full btn-gradient text-white font-semibold h-12 text-base rounded-md" disabled={isLoggingIn}>
                 {isLoggingIn ? 'Accediendo...' : 'Entrar'}
             </Button>
           </form>
