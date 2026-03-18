@@ -181,3 +181,18 @@ firebase deploy
 - El build de produccion ignora errores de TypeScript y ESLint (`ignoreBuildErrors: true`) — se recomienda revisar y corregir estos antes de un despliegue en produccion real.
 - Las imagenes externas permitidas provienen de `placehold.co`, `images.unsplash.com` y `picsum.photos`.
 - El servidor de desarrollo corre en el puerto `9002` (no el 3000 por defecto de Next.js).
+
+---
+
+## 🗺️ Fase 2 — Migración a Angular
+
+Este repositorio es el **boceto de alta fidelidad (Fase 1)** de ServiGo One. La siguiente fase consiste en migrar el frontend a Angular usando este proyecto como referencia de diseño y arquitectura.
+
+📄 **Ver plan completo:** [`MIGRATION_PLAN.md`](./MIGRATION_PLAN.md)
+
+El plan incluye:
+- Qué reutilizar (design tokens, modelos TypeScript, lógica de negocio)
+- Equivalencias React → Angular (hooks → Signals, Context → Services, etc.)
+- Arquitectura propuesta del proyecto Angular + backend NestJS
+- Checklist de tareas por fase
+
