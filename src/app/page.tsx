@@ -8,44 +8,24 @@ import {
 } from "@/components/ui/sidebar"
 import { SidebarNav } from "@/components/sidebar-nav"
 import { Header } from "@/components/header"
-import { kpiData, departmentPerformanceData } from "@/lib/data"
+import { kpiData } from "@/lib/data"
 import { KpiCard } from "@/components/kpi-card"
-import AiInsightsCard from "@/components/ai-insights-card"
-import { DepartmentPerformanceChart } from "@/components/department-performance-chart"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { OrderServiceForm } from "@/components/order-service-form"
 import { EquipmentListComponent } from "@/components/equipment-list"
 
 export type Module = 'Dashboard' | 'Clientes' | 'Equipos' | 'Ordenes' | 'Inventario';
 
 const DashboardContent = () => {
-  const allMetrics = {
-    kpis: kpiData,
-    departmentPerformance: departmentPerformanceData,
-  }
   return (
-    <>
+    <div className="space-y-4">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {kpiData.map((kpi) => (
           <KpiCard key={kpi.title} {...kpi} />
         ))}
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="card-sg lg:col-span-4">
-          <CardHeader>
-            <CardTitle className="card-title-text">
-              Department Performance
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pl-2">
-            <DepartmentPerformanceChart data={departmentPerformanceData} />
-          </CardContent>
-        </Card>
-        <div className="lg:col-span-3">
-          <AiInsightsCard metrics={JSON.stringify(allMetrics)} />
-        </div>
-      </div>
-    </>
+      {/* You can add more dashboard widgets here */}
+    </div>
   )
 }
 

@@ -1,88 +1,72 @@
 "use client"
 
-import { TrendingUp, TrendingDown, ArrowRight } from "lucide-react"
-import { Pie, PieChart } from "recharts"
-
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
+import { KpiDonutChart } from "./kpi-donut-chart"
+import * as Icons from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface KpiCardProps {
   title: string
   metric: string
-  change: string
-  changeType: "increase" | "decrease"
+  icon: keyof typeof Icons
+  color: 'magenta' | 'cyan' | 'default'
   description: string
-  chartData: { name: string; value: number; fill: string }[]
+  compliance?: number
 }
 
-const chartConfig = {
-  value: {
-    label: "Value",
-  },
+const colorClasses = {
+    magenta: "text-primary-magenta",
+    cyan: "text-primary-cyan",
+    default: "text-muted-foreground"
+}
+
+const chartColors = {
+    magenta: "hsl(var(--primary-magenta))",
+    cyan: "hsl(var(--primary-cyan))",
+    default: "hsl(var(--foreground))"
 }
 
 export function KpiCard({
   title,
   metric,
-  change,
-  changeType,
+  icon,
+  color,
   description,
-  chartData,
+  compliance,
 }: KpiCardProps) {
-  const ChangeIcon = changeType === "increase" ? TrendingUp : TrendingDown
-  const changeColor =
-    changeType === "increase" ? "text-green-500" : "text-red-500"
+    const LucideIcon = Icons[icon] as React.ElementType;
 
   return (
     <Card className="card-sg">
       <CardHeader className="p-4 pb-0">
-        <CardTitle className="card-title-text">{title}</CardTitle>
+        <div className="flex justify-between items-start">
+            <CardTitle className="card-title-text">{title}</CardTitle>
+            {LucideIcon && <LucideIcon className={cn("h-4 w-4", colorClasses[color])} />}
+        </div>
       </CardHeader>
-      <CardContent className="p-4 pb-0">
-        <div className="flex items-center justify-between">
+      <CardContent className="p-4 flex flex-col justify-end min-h-[90px]">
+        <div className="flex items-end justify-between gap-4">
           <div>
             <p className="kpi-metric">{metric}</p>
-            <div className="flex items-center gap-1 text-xs text-muted-foreground">
-              <ChangeIcon className={`h-4 w-4 ${changeColor}`} />
-              <span className={changeColor}>{change}</span>
-              <span>vs last month</span>
-            </div>
+            <p className="text-xs text-muted-foreground">{description}</p>
           </div>
-          <ChartContainer
-            config={chartConfig}
-            className="h-[60px] w-[60px]"
-          >
-            <PieChart>
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel />}
+          <div className="shrink-0">
+            {compliance !== undefined && (
+              <KpiDonutChart 
+                percentage={compliance} 
+                color={chartColors[color]}
+                strokeWidth={12}
+                size={60}
               />
-              <Pie
-                data={chartData}
-                dataKey="value"
-                nameKey="name"
-                innerRadius={18}
-                strokeWidth={5}
-                outerRadius={25}
-              />
-            </PieChart>
-          </ChartContainer>
+            )}
+          </div>
         </div>
       </CardContent>
-      <CardFooter className="p-4 pt-2">
-        <p className="text-xs text-muted-foreground">{description}</p>
-      </CardFooter>
     </Card>
   )
 }
