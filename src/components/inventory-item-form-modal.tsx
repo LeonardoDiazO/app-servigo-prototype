@@ -53,10 +53,18 @@ type InventoryFormValues = z.infer<typeof itemSchema>;
 
 const defaultValues: Omit<IInventoryItem, "stock" | "serials"> = {
   id: "",
+  code: "",
   name: "",
   type: "generic",
   criticalStockLevel: 5,
+  minStock: 5,
+  maxStock: 20,
+  stockStatus: "ok",
+  category: "Filtros",
   location: "Bodega Principal",
+  unitPrice: "—",
+  lastEntry: "—",
+  supplier: "—",
 }
 
 export function InventoryItemFormModal({ item, isOpen, onClose, onSave }: InventoryItemFormModalProps) {
@@ -78,20 +86,33 @@ export function InventoryItemFormModal({ item, isOpen, onClose, onSave }: Invent
   const onSubmit = (data: InventoryFormValues) => {
     const isCreating = !item?.id;
 
-    const itemToSave: IInventoryItem = {
-      id: item?.id || `inv-${Date.now()}`,
-      name: data.name,
-      type: data.type,
-      criticalStockLevel: data.criticalStockLevel,
-      location: data.location,
-      stock: isCreating && data.type === 'generic' ? (data.stock || 0) : (item?.stock || 0),
-      serials: isCreating && data.type === 'serialized' && data.serials ? data.serials.split(',').map(s => s.trim()).filter(Boolean) : (item?.serials || []),
-    };
-
-    // If creating a serialized item, stock is the number of serials
-    if (isCreating && itemToSave.type === 'serialized') {
-        itemToSave.stock = itemToSave.serials?.length || 0;
+    let newSerials: string[] | undefined = item?.serials
+    if (isCreating && data.type === 'serialized' && data.serials) {
+      newSerials = data.serials.split(',').map(s => s.trim()).filter(Boolean)
     }
+
+    const newStock = isCreating
+      ? (data.type === 'generic' ? (data.stock || 0) : (newSerials?.length || 0))
+      : (item?.stock || 0)
+
+    const itemToSave: IInventoryItem = {
+      ...(item ?? {}),
+      id:                 item?.id || `inv-${Date.now()}`,
+      code:               item?.code || `REP-${Date.now()}`,
+      name:               data.name,
+      type:               data.type,
+      criticalStockLevel: data.criticalStockLevel,
+      minStock:           item?.minStock ?? data.criticalStockLevel,
+      maxStock:           item?.maxStock ?? data.criticalStockLevel * 4,
+      location:           data.location,
+      stock:              newStock,
+      stockStatus:        newStock <= data.criticalStockLevel ? "low" : "ok",
+      category:           item?.category ?? "Filtros",
+      unitPrice:          item?.unitPrice ?? "—",
+      lastEntry:          item?.lastEntry ?? new Date().toLocaleDateString("es-CO"),
+      supplier:           item?.supplier ?? "—",
+      serials:            newSerials,
+    };
 
     onSave(itemToSave)
     toast({

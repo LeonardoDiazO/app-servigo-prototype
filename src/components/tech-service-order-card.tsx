@@ -27,9 +27,11 @@ const healthTextMap: Record<EquipmentHealth, string> = {
 };
 
 const statusBadgeMap: Record<ServiceOrderStatus, string> = {
-    Pendiente: "bg-muted text-muted-foreground",
-    "En Proceso": "bg-primary/20 text-primary",
-    Completado: "bg-success/20 text-success-foreground"
+    Pendiente:     "bg-muted text-muted-foreground",
+    "En Proceso":  "bg-primary/20 text-primary",
+    "En Ejecución":"bg-primary/20 text-primary",
+    Asignada:      "bg-warning/20 text-warning-foreground",
+    Completado:    "bg-success/20 text-success-foreground",
 }
 
 export function TechServiceOrderCard({ order }: { order: IServiceOrder }) {

@@ -69,10 +69,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div
-      className="w-full min-h-screen animate-in fade-in-0 duration-500"
-      style={{ display: 'grid', gridTemplateColumns: '60% 40%' }}
-    >
+    <div className="w-full min-h-screen animate-in fade-in-0 duration-500 grid grid-cols-1 lg:grid-cols-[60%_40%]">
       {/* ── Lado Izquierdo: Marca (60%) ─────────────────────────────── */}
       <div
         className="hidden lg:flex flex-col items-center justify-center p-16 text-white relative overflow-hidden"
@@ -113,7 +110,7 @@ export default function LoginPage() {
 
       {/* ── Lado Derecho: Formulario (40%) ──────────────────────────── */}
       <div
-        className="flex items-center justify-center min-h-screen relative overflow-hidden"
+        className="flex items-center justify-center min-h-screen lg:min-h-0 py-10 lg:py-0 relative overflow-hidden"
         style={{
           background: 'radial-gradient(ellipse 90% 60% at 50% 0%, rgba(147,197,253,0.12) 0%, #F8FAFC 65%)',
         }}
@@ -132,13 +129,10 @@ export default function LoginPage() {
         )}
 
         {/* Form card */}
-        <div
-          className="w-full mx-8"
-          style={{ maxWidth: '400px' }}
-        >
+        <div className="w-full px-4 sm:px-8 mx-auto" style={{ maxWidth: '400px' }}>
           {/* Card container */}
           <div
-            className="bg-white px-10 py-12"
+            className="bg-white px-6 py-8 sm:px-10 sm:py-12"
             style={{
               borderRadius: '1.75rem',
               boxShadow: '0 20px 40px -10px rgba(30,58,138,0.10), 0 4px 16px -4px rgba(0,0,0,0.06)',

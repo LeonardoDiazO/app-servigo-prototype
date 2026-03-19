@@ -1,5 +1,6 @@
 "use client"
 
+import type React from "react"
 import {
   LayoutDashboard,
   Users,
@@ -9,6 +10,7 @@ import {
   Settings,
   LogOut,
   Map as MapIcon,
+  HardHat,
 } from "lucide-react"
 
 import type { Module } from "@/app/dashboard/page"
@@ -34,10 +36,11 @@ export function SidebarNav({
   const { user, logout } = useAuth()
 
   const allOperationItems: { name: Module; icon: React.ReactNode; tooltip: string; roles: ('ADMIN' | 'TECH')[] }[] = [
-    { name: "Clientes", icon: <Users />, tooltip: "Gestión de Clientes", roles: ['ADMIN'] },
-    { name: "Equipos", icon: <Wrench />, tooltip: "Gestión de Equipos", roles: ['ADMIN', 'TECH'] },
-    { name: "Ordenes", icon: <ClipboardList />, tooltip: "Órdenes de Servicio", roles: ['ADMIN', 'TECH'] },
-    { name: "Mapa", icon: <MapIcon />, tooltip: "Geo-Mapa de Operaciones", roles: ['ADMIN'] },
+    { name: "Clientes",  icon: <Users />,        tooltip: "Gestión de Clientes",      roles: ['ADMIN'] },
+    { name: "Equipos",   icon: <Wrench />,       tooltip: "Gestión de Equipos",       roles: ['ADMIN', 'TECH'] },
+    { name: "Ordenes",   icon: <ClipboardList />,tooltip: "Órdenes de Servicio",      roles: ['ADMIN', 'TECH'] },
+    { name: "Técnicos",  icon: <HardHat />,      tooltip: "Gestión de Técnicos",      roles: ['ADMIN'] },
+    { name: "Mapa",      icon: <MapIcon />,      tooltip: "Geo-Mapa de Operaciones",  roles: ['ADMIN'] },
   ]
 
   const allLogisticsItems: { name: Module; icon: React.ReactNode; tooltip: string; roles: ('ADMIN' | 'TECH')[] }[] = [

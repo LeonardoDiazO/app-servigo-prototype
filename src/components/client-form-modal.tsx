@@ -40,6 +40,9 @@ const clientSchema = z.object({
   email: z.string().email("Email inválido."),
   address: z.string().min(5, "La dirección es requerida."),
   city: z.string().min(3, "La ciudad es requerida."),
+  lat: z.number().optional(),
+  lng: z.number().optional(),
+  contact: z.string().optional(),
   sites: z.array(z.object({ id: z.string(), name: z.string(), address: z.string() })).optional(),
 })
 
@@ -51,13 +54,16 @@ const defaultValues: IClient = {
   email: "",
   address: "",
   city: "",
+  lat: 4.6534,
+  lng: -74.1027,
+  contact: "",
   sites: [],
 }
 
 export function ClientFormModal({ client, isOpen, onClose, onSave }: ClientFormModalProps) {
   const { toast } = useToast()
   
-  const form = useForm<IClient>({
+  const form = useForm({
     resolver: zodResolver(clientSchema),
     defaultValues: client || defaultValues,
   })
@@ -68,11 +74,15 @@ export function ClientFormModal({ client, isOpen, onClose, onSave }: ClientFormM
     }
   }, [client, isOpen, form])
 
-  const onSubmit = (data: IClient) => {
-    const clientToSave = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit = (data: any) => {
+    const clientToSave: IClient = {
       ...data,
-      id: client?.id || `cliente-${Date.now()}`, // Assign new ID if creating
-      sites: client?.sites || [], // Preserve existing sites
+      id:      client?.id || `cliente-${Date.now()}`,
+      lat:     client?.lat     ?? 4.6534,
+      lng:     client?.lng     ?? -74.1027,
+      contact: data.contact   || client?.contact || "",
+      sites:   client?.sites  || [],
     };
     onSave(clientToSave)
     toast({

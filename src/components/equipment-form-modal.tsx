@@ -30,8 +30,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useToast } from "@/hooks/use-toast"
-
 interface EquipmentFormModalProps {
   equipment: IEquipment | null
   isOpen: boolean
@@ -45,35 +43,97 @@ const equipmentSchema = z.object({
   name: z.string().min(3, "El nombre debe tener al menos 3 caracteres."),
   location: z.string().min(3, "La ubicación es requerida."),
   clientId: z.string({ required_error: "Debe seleccionar un cliente." }).min(1, "Debe seleccionar un cliente."),
-  status: z.enum(["ok", "critico"]),
+  status: z.enum(["GREEN", "YELLOW", "RED", "GRAY"]),
+  brand: z.string().optional(),
+  model: z.string().optional(),
+  serial: z.string().optional(),
+  capacity: z.string().optional(),
+  refrigerant: z.string().optional(),
 })
 
-const defaultValues: Omit<IEquipment, 'id'> = {
+type EquipmentFormValues = {
+  id: string
+  name: string
+  location: string
+  clientId: string
+  status: "GREEN" | "YELLOW" | "RED" | "GRAY"
+  brand?: string
+  model?: string
+  serial?: string
+  capacity?: string
+  refrigerant?: string
+}
+
+const defaultFormValues: EquipmentFormValues = {
+  id: "",
   name: "",
   location: "",
   clientId: "",
-  status: "ok",
+  status: "GREEN",
+  brand: "",
+  model: "",
+  serial: "",
+  capacity: "",
+  refrigerant: "",
 }
 
 export function EquipmentFormModal({ equipment, isOpen, onClose, onSave, clients }: EquipmentFormModalProps) {
-  const { toast } = useToast()
-  
-  const form = useForm<IEquipment>({
+  const form = useForm({
     resolver: zodResolver(equipmentSchema),
-    defaultValues: equipment || { ...defaultValues, id: "" },
+    defaultValues: equipment ? {
+      ...defaultFormValues,
+      id:         equipment.id,
+      name:       equipment.name,
+      location:   equipment.location,
+      clientId:   equipment.clientId,
+      status:     equipment.status,
+      brand:      equipment.brand ?? "",
+      model:      equipment.model ?? "",
+      serial:     equipment.serial ?? "",
+      capacity:   equipment.capacity ?? "",
+      refrigerant: equipment.refrigerant ?? "",
+    } : defaultFormValues,
   })
 
   React.useEffect(() => {
     if (isOpen) {
-      form.reset(equipment || { ...defaultValues, id: "" })
+      form.reset(equipment ? {
+        ...defaultFormValues,
+        id:         equipment.id,
+        name:       equipment.name,
+        location:   equipment.location,
+        clientId:   equipment.clientId,
+        status:     equipment.status,
+        brand:      equipment.brand ?? "",
+        model:      equipment.model ?? "",
+        serial:     equipment.serial ?? "",
+        capacity:   equipment.capacity ?? "",
+        refrigerant: equipment.refrigerant ?? "",
+      } : defaultFormValues)
     }
   }, [equipment, isOpen, form])
 
-  const onSubmit = (data: IEquipment) => {
-    const equipmentToSave = {
-      ...data,
-      id: equipment?.id || `eq-${Date.now()}`,
-    };
+  const onSubmit = (data: EquipmentFormValues) => {
+    const client = clients.find(c => c.id === data.clientId)
+    const equipmentToSave: IEquipment = {
+      ...(equipment ?? {}),
+      id:          equipment?.id || `eq-${Date.now()}`,
+      name:        data.name,
+      location:    data.location,
+      clientId:    data.clientId,
+      clientName:  client?.name ?? "Cliente Desconocido",
+      status:      data.status,
+      brand:       data.brand || "—",
+      model:       data.model || "—",
+      serial:      data.serial || "—",
+      capacity:    data.capacity || "—",
+      refrigerant: data.refrigerant || "—",
+      installDate: equipment?.installDate ?? "—",
+      lastService: equipment?.lastService ?? "—",
+      nextService: equipment?.nextService ?? "—",
+      hoursOp:     equipment?.hoursOp ?? "—",
+      history:     equipment?.history ?? [],
+    }
     onSave(equipmentToSave)
     onClose()
   }
@@ -142,6 +202,64 @@ export function EquipmentFormModal({ equipment, isOpen, onClose, onSave, clients
               )}
             />
 
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="brand"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Marca</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ej: York, Carrier..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="model"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Modelo</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ej: YLAA0500" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="serial"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Serial</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ej: YK-2019-04521" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="capacity"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Capacidad</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ej: 500 TR" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               control={form.control}
               name="status"
@@ -155,8 +273,10 @@ export function EquipmentFormModal({ equipment, isOpen, onClose, onSave, clients
                         </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                            <SelectItem value="ok">OK</SelectItem>
-                            <SelectItem value="critico">Crítico</SelectItem>
+                            <SelectItem value="GREEN">Óptimo</SelectItem>
+                            <SelectItem value="YELLOW">Preventivo pendiente</SelectItem>
+                            <SelectItem value="RED">Correctivo requerido</SelectItem>
+                            <SelectItem value="GRAY">Fuera de servicio</SelectItem>
                         </SelectContent>
                     </Select>
                   <FormMessage />

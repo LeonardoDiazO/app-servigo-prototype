@@ -1,284 +1,396 @@
 "use client"
 
 import * as React from "react"
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import {
-  Archive,
-  Search,
-  PlusCircle,
-  MinusCircle,
-  Warehouse,
-  Boxes,
-  MoreVertical,
-  Pencil,
-  Trash2,
-} from "lucide-react"
-import { inventory as initialInventory, type IInventoryItem } from "@/lib/data"
-import { cn } from "@/lib/utils"
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  inventory as initialInventory,
+  type IInventoryItem,
+  INVENTORY_CATEGORY_EMOJI,
+} from "@/lib/data"
+import { Search, PlusCircle, Boxes, ArrowLeft, MoreVertical, Pencil, Trash2, PlusCircle as PlusIcon, MinusCircle } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { InventoryItemFormModal } from "./inventory-item-form-modal"
 import { StockAdjustmentModal } from "./stock-adjustment-modal"
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "./ui/alert-dialog"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
 
+// ── Vista de Detalle ──────────────────────────────────────────────────────
+function InventoryDetail({ item, onBack }: { item: IInventoryItem; onBack: () => void }) {
+  const isLow   = item.stockStatus === "low"
+  const color   = isLow ? "#ef4444" : "#10b981"
+  const pct     = Math.round((item.stock / item.maxStock) * 100)
+  const barColor = pct > 50 ? "#10b981" : pct > 25 ? "#f59e0b" : "#ef4444"
+  const emoji   = INVENTORY_CATEGORY_EMOJI[item.category] ?? "📦"
+
+  return (
+    <div className="space-y-5 w-full max-w-4xl mx-auto">
+      <button
+        onClick={onBack}
+        className="flex items-center gap-1.5 text-sm font-semibold text-indigo-600 hover:text-indigo-700"
+      >
+        <ArrowLeft className="h-4 w-4" /> Volver a inventario
+      </button>
+
+      <div className="rounded-2xl overflow-hidden border" style={{ borderColor: `${color}40` }}>
+        {/* Header */}
+        <div
+          className="px-5 py-4"
+          style={{
+            background: `linear-gradient(135deg, ${color}15, ${color}05)`,
+            borderBottom: `3px solid ${color}`,
+          }}
+        >
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div>
+              <h2 className="text-lg font-bold text-slate-900">{item.name}</h2>
+              <p className="text-sm text-slate-500">{item.code} — {item.category}</p>
+            </div>
+            <span
+              className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[13px] font-semibold"
+              style={{ background: `${color}15`, color, border: `1px solid ${color}30` }}
+            >
+              {isLow ? "Bajo mínimo" : "Stock OK"}
+            </span>
+          </div>
+        </div>
+
+        <div className="bg-white px-5 py-5 space-y-5">
+          {/* Imagen placeholder */}
+          <div
+            className="w-full h-36 rounded-xl flex items-center justify-center text-6xl"
+            style={{ background: `${color}08`, border: `1px solid ${color}20` }}
+          >
+            {emoji}
+          </div>
+
+          {/* Contadores Stock / Min / Max */}
+          <div
+            className="flex items-center justify-around rounded-xl p-4"
+            style={{ background: "#f9fafb" }}
+          >
+            <div className="text-center">
+              <p className="text-4xl font-extrabold" style={{ color }}>{item.stock}</p>
+              <p className="text-[12px] text-slate-500 mt-0.5">En stock</p>
+            </div>
+            <div className="w-px h-12 bg-slate-200" />
+            <div className="text-center">
+              <p className="text-xl font-bold text-amber-500">{item.minStock}</p>
+              <p className="text-[12px] text-slate-500 mt-0.5">Mínimo</p>
+            </div>
+            <div className="w-px h-12 bg-slate-200" />
+            <div className="text-center">
+              <p className="text-xl font-bold text-slate-400">{item.maxStock}</p>
+              <p className="text-[12px] text-slate-500 mt-0.5">Máximo</p>
+            </div>
+          </div>
+
+          {/* Barra nivel de stock */}
+          <div>
+            <div className="flex justify-between text-[12px] text-slate-400 mb-1.5">
+              <span>Nivel de stock</span>
+              <span>{pct}%</span>
+            </div>
+            <div className="h-2.5 rounded-full bg-slate-100 overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all"
+                style={{ width: `${pct}%`, background: barColor }}
+              />
+            </div>
+          </div>
+
+          {/* Info grid */}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-2.5">
+            {[
+              ["Código",         item.code],
+              ["Categoría",      item.category],
+              ["Ubicación",      item.location],
+              ["Precio unitario",item.unitPrice],
+              ["Último ingreso", item.lastEntry],
+              ["Proveedor",      item.supplier],
+            ].map(([label, val]) => (
+              <div key={label}>
+                <p className="text-[11px] text-slate-400">{label}</p>
+                <p className="text-[13px] font-semibold text-slate-800">{val}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Alerta de reposición */}
+          {isLow && (
+            <div className="rounded-xl px-4 py-3" style={{ background: "#fef2f2", border: "1px solid #fecaca" }}>
+              <p className="text-[13px] font-bold text-red-800 mb-1">Acción requerida</p>
+              <p className="text-[12px] text-red-600">
+                El stock actual ({item.stock}) está por debajo del mínimo ({item.minStock}).
+                Se recomienda generar orden de compra a {item.supplier} por {item.minStock * 2 - item.stock} unidades.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Componente principal ──────────────────────────────────────────────────
 export function InventoryListComponent() {
-  const [inventory, setInventory] = React.useState<IInventoryItem[]>(initialInventory);
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const { toast } = useToast();
+  const [inv, setInv]           = React.useState<IInventoryItem[]>(initialInventory)
+  const [searchTerm, setSearch] = React.useState("")
+  const [selectedItem, setSelectedItem] = React.useState<IInventoryItem | null>(null)
 
-  // Modal States
-  const [isItemFormModalOpen, setIsItemFormModalOpen] = React.useState(false);
-  const [editingItem, setEditingItem] = React.useState<IInventoryItem | null>(null);
-  
-  const [isAdjustmentModalOpen, setIsAdjustmentModalOpen] = React.useState(false);
-  const [adjustmentItem, setAdjustmentItem] = React.useState<IInventoryItem | null>(null);
-  const [adjustmentMode, setAdjustmentMode] = React.useState<'in' | 'out'>('in');
+  const [isFormOpen, setIsFormOpen]       = React.useState(false)
+  const [editingItem, setEditingItem]     = React.useState<IInventoryItem | null>(null)
+  const [isAdjOpen, setIsAdjOpen]         = React.useState(false)
+  const [adjItem, setAdjItem]             = React.useState<IInventoryItem | null>(null)
+  const [adjMode, setAdjMode]             = React.useState<"in" | "out">("in")
+  const [isDeleteOpen, setIsDeleteOpen]   = React.useState(false)
+  const [itemToDelete, setItemToDelete]   = React.useState<IInventoryItem | null>(null)
+  const { toast } = useToast()
 
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false);
-  const [itemToDelete, setItemToDelete] = React.useState<IInventoryItem | null>(null);
+  const filtered = React.useMemo(() => {
+    if (!searchTerm) return inv
+    const q = searchTerm.toLowerCase()
+    return inv.filter(i =>
+      i.name.toLowerCase().includes(q) ||
+      i.code.toLowerCase().includes(q) ||
+      i.category.toLowerCase().includes(q) ||
+      i.serials?.some(s => s.toLowerCase().includes(q))
+    )
+  }, [inv, searchTerm])
 
+  const lowCount = inv.filter(i => i.stockStatus === "low").length
+  const okCount  = inv.filter(i => i.stockStatus === "ok").length
 
-  const filteredInventory = React.useMemo(() => {
-    if (!searchTerm) return inventory
-
-    return inventory.filter((item) => {
-      const term = searchTerm.toLowerCase()
-      const nameMatch = item.name.toLowerCase().includes(term)
-      const serialMatch =
-        item.type === "serialized" &&
-        item.serials?.some((s) => s.toLowerCase().includes(term))
-      return nameMatch || serialMatch
+  const handleSaveItem = (saved: IInventoryItem) => {
+    setInv(prev => {
+      const exists = prev.some(i => i.id === saved.id)
+      return exists ? prev.map(i => i.id === saved.id ? saved : i) : [...prev, saved]
     })
-  }, [inventory, searchTerm])
-  
-  // --- CRUD Handlers ---
-
-  const handleCreateNew = () => {
-    setEditingItem(null);
-    setIsItemFormModalOpen(true);
+    setIsFormOpen(false)
   }
-
-  const handleEdit = (item: IInventoryItem) => {
-    setEditingItem(item);
-    setIsItemFormModalOpen(true);
-  }
-
-  const handleSaveItem = (itemToSave: IInventoryItem) => {
-    setInventory((prev) => {
-      const exists = prev.some((i) => i.id === itemToSave.id);
-      if (exists) {
-        return prev.map((i) => (i.id === itemToSave.id ? itemToSave : i));
-      }
-      return [...prev, itemToSave];
-    });
-    setIsItemFormModalOpen(false);
-  }
-
-  const openDeleteDialog = (item: IInventoryItem) => {
-    setItemToDelete(item);
-    setIsDeleteDialogOpen(true);
-  };
 
   const handleDeleteItem = () => {
-    if (!itemToDelete) return;
-    setInventory((prev) => prev.filter((i) => i.id !== itemToDelete.id));
-    toast({
-      title: "Repuesto Eliminado",
-      description: `El repuesto ${itemToDelete.name} ha sido eliminado.`,
-      variant: "destructive",
-    })
-    setIsDeleteDialogOpen(false);
-    setItemToDelete(null);
-  };
-
-  // --- Stock Adjustment Handlers ---
-
-  const handleOpenAdjustmentModal = (item: IInventoryItem, mode: 'in' | 'out') => {
-    setAdjustmentItem(item);
-    setAdjustmentMode(mode);
-    setIsAdjustmentModalOpen(true);
+    if (!itemToDelete) return
+    setInv(prev => prev.filter(i => i.id !== itemToDelete.id))
+    toast({ title: "Repuesto eliminado", description: itemToDelete.name, variant: "destructive" })
+    setIsDeleteOpen(false)
+    setItemToDelete(null)
   }
 
   const handleSaveAdjustment = (item: IInventoryItem, quantity: number, serials: string[]) => {
-    setInventory(prev => prev.map(invItem => {
-        if (invItem.id === item.id) {
-            const newStock = invItem.stock + quantity;
-            let newSerials = invItem.serials ? [...invItem.serials] : [];
-
-            if (item.type === 'serialized') {
-                if (quantity > 0) { // 'in' mode
-                    newSerials = [...newSerials, ...serials];
-                } else { // 'out' mode
-                    newSerials = newSerials.filter(s => !serials.includes(s));
-                }
-            }
-            return { ...invItem, stock: newStock, serials: newSerials };
-        }
-        return invItem;
-    }));
+    setInv(prev => prev.map(i => {
+      if (i.id !== item.id) return i
+      const newStock   = i.stock + quantity
+      let   newSerials = i.serials ? [...i.serials] : []
+      if (item.type === "serialized") {
+        newSerials = quantity > 0
+          ? [...newSerials, ...serials]
+          : newSerials.filter(s => !serials.includes(s))
+      }
+      const newStatus = newStock <= i.minStock ? "low" : "ok"
+      return { ...i, stock: newStock, serials: newSerials, stockStatus: newStatus }
+    }))
   }
 
-  const isStockCritical = (item: IInventoryItem) => {
-    return item.stock <= item.criticalStockLevel
-  }
-  
-  const getStatusBorderClass = (item: IInventoryItem) => {
-    if (isStockCritical(item)) {
-      return "border-l-4 border-accent"
-    }
-    return "border-l-4 border-transparent"
+  // Vista detalle
+  if (selectedItem) {
+    return (
+      <div className="w-full max-w-4xl mx-auto">
+        <InventoryDetail item={selectedItem} onBack={() => setSelectedItem(null)} />
+      </div>
+    )
   }
 
   return (
     <>
-      <div className="w-full max-w-7xl mx-auto space-y-6">
-        <Card className="card-sg p-4">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div className="relative flex-grow">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                    type="search"
-                    placeholder="Buscar por nombre o número de serial..."
-                    className="w-full pl-10 bg-background"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-                <Button onClick={handleCreateNew} className="w-full md:w-auto">
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Crear Repuesto
-                </Button>
-            </div>
-        </Card>
+      <div className="w-full max-w-7xl mx-auto space-y-5">
 
-        {inventory.length === 0 ? (
-          <Card className="card-sg">
-              <CardContent className="flex flex-col items-center justify-center gap-4 p-12 text-center">
-                  <Boxes className="h-16 w-16 text-muted-foreground/30" />
-                  <h3 className="text-2xl font-semibold tracking-tight">Tu inventario está vacío</h3>
-                  <p className="text-muted-foreground max-w-md">
-                      Registra tus repuestos y equipos para empezar a gestionar tu stock.
-                  </p>
-                  <Button onClick={handleCreateNew} size="lg" className="mt-4">
-                      <PlusCircle className="mr-2" />
-                      Agregar mi primer repuesto
-                  </Button>
-              </CardContent>
-          </Card>
-        ) : filteredInventory.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filteredInventory.map((item) => (
-              <Card
-                key={item.id}
-                className={cn(
-                  "card-sg transition-all flex flex-col",
-                  getStatusBorderClass(item)
-                )}
-              >
-                <CardHeader>
-                  <div className="flex justify-between items-start gap-2">
-                    <CardTitle className="text-base font-bold pr-2">
-                      {item.name}
-                    </CardTitle>
-                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-6 w-6">
-                                <MoreVertical className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => handleEdit(item)}>
-                                <Pencil className="mr-2 h-4 w-4" />
-                                Editar
-                            </DropdownMenuItem>
-                             <DropdownMenuItem onClick={() => openDeleteDialog(item)} className="text-destructive focus:text-destructive">
-                                <Trash2 className="mr-2 h-4 w-4" />
-                                Eliminar
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                   <Badge
-                      variant={item.type === "generic" ? "secondary" : "outline"}
-                      className="capitalize shrink-0 w-fit"
-                    >
-                      {item.type === "generic" ? "Genérico" : "Serializado"}
-                    </Badge>
-                  {isStockCritical(item) && (
-                    <Badge
-                      variant="destructive"
-                      className="w-fit mt-2 bg-accent text-accent-foreground border-transparent"
-                    >
-                      Stock Crítico
-                    </Badge>
-                  )}
-                </CardHeader>
-                <CardContent className="flex-grow space-y-4 text-sm">
-                  <div className="flex items-center gap-2 text-foreground">
-                    <Archive className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-bold text-lg">{item.stock}</span>
-                    <span className="text-muted-foreground">
-                      {item.type === "generic" ? "unidades" : "en stock"}
-                    </span>
-                  </div>
-                   <div className="flex items-center gap-2 text-muted-foreground">
-                    <Warehouse className="h-4 w-4" />
-                    <span>{item.location}</span>
-                  </div>
-                </CardContent>
-                <CardFooter className="grid grid-cols-2 gap-2 pt-4">
-                   <Button variant="outline" size="sm" onClick={() => handleOpenAdjustmentModal(item, 'in')}>
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Entrada
-                  </Button>
-                  <Button variant="secondary" size="sm" onClick={() => handleOpenAdjustmentModal(item, 'out')} disabled={item.stock === 0}>
-                     <MinusCircle className="mr-2 h-4 w-4" />
-                    Consumir
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">Inventario de Repuestos</h1>
+            <p className="text-sm text-slate-400 mt-0.5">Controla el stock de repuestos y materiales.</p>
+          </div>
+          <Button onClick={() => { setEditingItem(null); setIsFormOpen(true) }}>
+            <PlusCircle className="mr-2 h-4 w-4" /> Crear Repuesto
+          </Button>
+        </div>
+
+        {/* Filtros y búsqueda */}
+        <div
+          className="bg-white rounded-2xl border border-slate-100 p-4 space-y-3"
+          style={{ boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}
+        >
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Input
+              placeholder="Buscar por nombre, código o serial..."
+              className="pl-10"
+              value={searchTerm}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </div>
+          <div className="flex gap-2">
+            <span
+              className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[12px] font-medium"
+              style={{ background: "#ecfdf5", color: "#10b981", border: "1px solid #bbf7d030" }}
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              Stock OK ({okCount})
+            </span>
+            <span
+              className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[12px] font-medium"
+              style={{ background: "#fef2f2", color: "#ef4444", border: "1px solid #fecaca30" }}
+            >
+              <span className="w-2 h-2 rounded-full bg-red-500" />
+              Bajo mínimo ({lowCount})
+            </span>
+          </div>
+        </div>
+
+        {/* Lista */}
+        {inv.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-4 p-12 text-center border-2 border-dashed rounded-2xl bg-white">
+            <Boxes className="h-14 w-14 text-slate-200" />
+            <h3 className="text-xl font-semibold text-slate-700">Tu inventario está vacío</h3>
+            <Button onClick={() => { setEditingItem(null); setIsFormOpen(true) }}>
+              <PlusCircle className="mr-2 h-4 w-4" /> Agregar mi primer repuesto
+            </Button>
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="flex items-center justify-center p-10 text-slate-400 text-sm border-2 border-dashed rounded-2xl bg-white">
+            No se encontraron repuestos con ese criterio.
           </div>
         ) : (
-          <Card className="card-sg flex h-48 items-center justify-center">
-            <p className="text-muted-foreground">
-              No se encontraron repuestos con ese criterio.
-            </p>
-          </Card>
+          <div className="space-y-2.5">
+            {filtered.map(item => {
+              const isLow    = item.stockStatus === "low"
+              const color    = isLow ? "#ef4444" : "#10b981"
+              const pct      = Math.round((item.stock / item.maxStock) * 100)
+              const barColor = pct > 50 ? "#10b981" : pct > 25 ? "#f59e0b" : "#ef4444"
+              const emoji    = INVENTORY_CATEGORY_EMOJI[item.category] ?? "📦"
+
+              return (
+                <div
+                  key={item.id}
+                  className="bg-white rounded-2xl border border-slate-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+                  style={{ borderLeft: `4px solid ${color}` }}
+                  onClick={() => setSelectedItem(item)}
+                >
+                  <div className="px-4 py-3.5">
+                    <div className="flex items-center gap-4">
+                      {/* Emoji categoría */}
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
+                        style={{ background: `${color}10` }}
+                      >
+                        {emoji}
+                      </div>
+
+                      {/* Info */}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[14px] font-bold text-slate-900 truncate">{item.name}</p>
+                        <p className="text-[12px] text-slate-500">{item.code} — {item.category} — {item.location}</p>
+                        {/* Barra de stock */}
+                        <div className="flex items-center gap-2 mt-1.5">
+                          <div className="flex-1 h-1.5 rounded-full bg-slate-100 overflow-hidden max-w-[160px]">
+                            <div
+                              className="h-full rounded-full"
+                              style={{ width: `${pct}%`, background: barColor }}
+                            />
+                          </div>
+                          <span className="text-[11px] text-slate-400">{pct}%</span>
+                        </div>
+                      </div>
+
+                      {/* Stock número grande */}
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-2xl font-extrabold" style={{ color }}>{item.stock}</p>
+                        <p className="text-[11px] text-slate-400">Mín: {item.minStock}</p>
+                      </div>
+
+                      {/* Acciones */}
+                      <div className="flex-shrink-0 ml-1" onClick={e => e.stopPropagation()}>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => { setAdjItem(item); setAdjMode("in"); setIsAdjOpen(true) }}>
+                              <PlusIcon className="mr-2 h-4 w-4" /> Entrada
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => { setAdjItem(item); setAdjMode("out"); setIsAdjOpen(true) }}
+                              disabled={item.stock === 0}
+                            >
+                              <MinusCircle className="mr-2 h-4 w-4" /> Consumir
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => { setEditingItem(item); setIsFormOpen(true) }}>
+                              <Pencil className="mr-2 h-4 w-4" /> Editar
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => { setItemToDelete(item); setIsDeleteOpen(true) }}
+                              className="text-destructive focus:text-destructive"
+                            >
+                              <Trash2 className="mr-2 h-4 w-4" /> Eliminar
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </div>
+
+                    {/* Alerta inline */}
+                    {isLow && (
+                      <div className="mt-2 px-3 py-1.5 rounded-lg text-[11px] font-semibold text-red-700"
+                           style={{ background: "#fef2f2", border: "1px solid #fecaca" }}>
+                        Reposición requerida — Proveedor: {item.supplier}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         )}
       </div>
 
-       <InventoryItemFormModal 
-            isOpen={isItemFormModalOpen}
-            onClose={() => setIsItemFormModalOpen(false)}
-            item={editingItem}
-            onSave={handleSaveItem}
-       />
+      <InventoryItemFormModal
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        item={editingItem}
+        onSave={handleSaveItem}
+      />
 
-       <StockAdjustmentModal
-            isOpen={isAdjustmentModalOpen}
-            onClose={() => setIsAdjustmentModalOpen(false)}
-            item={adjustmentItem}
-            mode={adjustmentMode}
-            onSave={handleSaveAdjustment}
-       />
+      <StockAdjustmentModal
+        isOpen={isAdjOpen}
+        onClose={() => setIsAdjOpen(false)}
+        item={adjItem}
+        mode={adjMode}
+        onSave={handleSaveAdjustment}
+      />
 
-       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+      <AlertDialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
+            <AlertDialogTitle>¿Eliminar repuesto?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Esto eliminará permanentemente el repuesto
-               "{itemToDelete?.name}".
+              Esta acción no se puede deshacer. Se eliminará permanentemente &quot;{itemToDelete?.name}&quot;.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
